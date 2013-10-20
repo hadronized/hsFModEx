@@ -15,7 +15,6 @@ FModEx API C types Haskell binding.
 
 module Sound.FModEx.Types where
 
-import Foreign
 import Foreign.C.Types
 
 #include <fmodex/fmod.h>

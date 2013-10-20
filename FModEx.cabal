@@ -48,6 +48,10 @@ cabal-version:       >=1.8
 
 
 library
+  -- Compilation line
+  ghc-options:       -Wall -O
+  -- Extra libraries
+  extra-libraries:   fmodex
   -- Modules exported by the library.
   exposed-modules:     Sound.FModEx
                      , Sound.FModEx.Functions
