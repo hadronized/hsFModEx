@@ -27,8 +27,8 @@ foreign import ccall "FMOD_System_Release"      fmodSystemRelease      :: Ptr FM
 foreign import ccall "FMOD_System_CreateStream" fmodSystemCreateStream :: Ptr FModSystem -> CString -> FModMode -> Ptr FModCreateSoundExInfo -> Ptr (Ptr FModSound) -> IO FModResult
 foreign import ccall "FMOD_System_PlaySound"    fmodSystemPlaySound    :: Ptr FModSystem -> FModChannelIndex -> Ptr FModSound -> FModBool -> Ptr (Ptr FModChannel) -> IO FModResult
 -- channel
-foreign import ccall "FMOD_Channel_GetPosition" fmodChannelGetPosition :: Ptr FModChannel -> CUInt -> FModTimeUnit -> IO FModResult
-foreign import ccall "FMOD_Channel_SetPosition" fmodChannelSetPosition :: Ptr FModChannel -> CUInt -> FModTimeUnit -> IO FModResult
+foreign import ccall "FMOD_Channel_GetPosition" fmodChannelGetPosition :: Ptr FModChannel -> Ptr CUInt -> FModTimeUnit -> IO FModResult
+foreign import ccall "FMOD_Channel_SetPosition" fmodChannelSetPosition :: Ptr FModChannel -> Ptr CUInt -> FModTimeUnit -> IO FModResult
 foreign import ccall "FMOD_Channel_SetPaused"   fmodChanellSetPaused   :: Ptr FModChannel -> FModBool -> IO FModResult
 -- sound
 foreign import ccall "FMOD_Sound_GetLength"     fmodSoundGetLength     :: Ptr FModSound -> CUInt -> FModTimeUnit -> IO FModResult
