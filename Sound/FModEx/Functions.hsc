@@ -18,7 +18,7 @@ module Sound.FModEx.Functions where
 import Foreign.Ptr
 import Foreign.C.String
 import Foreign.C.Types
-import FModEx.Types
+import Sound.FModEx.Types
 
 -- system
 foreign import ccall "FMOD_System_Create"       fmodSystemCreate       :: Ptr (Ptr FModSystem) -> IO FModResult

@@ -15,5 +15,5 @@ module Sound.FModEx (
     module X
   ) where
 
-import FModEx.Functions as X
-import FModEx.Types     as X
+import Sound.FModEx.Functions as X
+import Sound.FModEx.Types     as X
