@@ -6,7 +6,7 @@ License     :  GPL-3
 
 Maintainer  :  dimitri.sabadie@gmail.com
 Stability   :  experimental
-Portability : Linux only for now
+Portability :  Linux only for now
 
 FModEx Haskell API.
 -}
