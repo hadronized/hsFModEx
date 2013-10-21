@@ -16,6 +16,7 @@ FModEx API C types Haskell binding.
 module Sound.FModEx.Types where
 
 import Foreign.C.Types
+import Foreign.Ptr
 
 #include <fmodex/fmod.h>
 
@@ -221,10 +222,13 @@ newtype FModTimeUnit = FModTimeUnit { unFModTimeUnit :: CUInt } deriving (Eq,Sho
  }
 
 -- FMOD_SOUND
-data FModSound = FModSound deriving (Eq,Show)
+--data FModSound = FModSound deriving (Eq,Show)
+type FModSound = Ptr ()
 
 -- FMOD_CHANNEL
-data FModChannel = FModChannel deriving (Eq,Show)
+--data FModChannel = FModChannel deriving (Eq,Show)
+type FModChannel = Ptr ()
 
 -- FMOD_SYSTEM
-data FModSystem = FModSystem deriving (Eq,Show)
+--data FModSystem = FModSystem deriving (Eq,Show)
+type FModSystem = Ptr ()
