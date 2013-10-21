@@ -10,7 +10,7 @@ name:                hsFModEx
 -- PVP summary:      +-+------- breaking API changes
 --                   | | +----- non-breaking API additions
 --                   | | | +--- code changes with no API change
-version:             0.1.0.0
+version:             0.0.0.0
 
 -- A short (one-line) description of the package.
 synopsis:            The Haskell FModEx API.
@@ -19,6 +19,8 @@ synopsis:            The Haskell FModEx API.
 description:         Haskell FModEx API. For now, it’s very minimalistic binding used for – mainly – play a single streamed
                      music, pause it and move playing cursor. At some point it will end up in a complete, portable and type-safe
                      Haskell binding.
+
+                     For now, I use version 0.0.* for uncomplete API binding. The complete API will be released just in time.
 
 -- URL for the project homepage or repository.
 homepage:            https://github.com/skypers/hsFModEx
