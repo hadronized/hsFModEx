@@ -21,14 +21,14 @@ import Foreign.C.Types
 import Sound.FModEx.Types
 
 -- system
-foreign import ccall "FMOD_System_Create"       fmodSystemCreate       :: Ptr (Ptr FModSystem) -> IO FModResult
-foreign import ccall "FMOD_System_Init"         fmodSystemInit         :: Ptr FModSystem -> CInt -> FModInitFlags -> Ptr a -> IO FModResult
-foreign import ccall "FMOD_System_Release"      fmodSystemRelease      :: Ptr FModSystem -> IO FModResult
-foreign import ccall "FMOD_System_CreateStream" fmodSystemCreateStream :: Ptr FModSystem -> CString -> FModMode -> Ptr FModCreateSoundExInfo -> Ptr (Ptr FModSound) -> IO FModResult
-foreign import ccall "FMOD_System_PlaySound"    fmodSystemPlaySound    :: Ptr FModSystem -> FModChannelIndex -> Ptr FModSound -> FModBool -> Ptr (Ptr FModChannel) -> IO FModResult
+foreign import ccall "FMOD_System_Create"       fmodSystemCreate       :: Ptr FModSystem -> IO FModResult
+foreign import ccall "FMOD_System_Init"         fmodSystemInit         :: FModSystem -> CInt -> FModInitFlags -> Ptr a -> IO FModResult
+foreign import ccall "FMOD_System_Release"      fmodSystemRelease      :: FModSystem -> IO FModResult
+foreign import ccall "FMOD_System_CreateStream" fmodSystemCreateStream :: FModSystem -> CString -> FModMode -> Ptr FModCreateSoundExInfo -> Ptr FModSound -> IO FModResult
+foreign import ccall "FMOD_System_PlaySound"    fmodSystemPlaySound    :: FModSystem -> FModChannelIndex -> FModSound -> FModBool -> Ptr FModChannel -> IO FModResult
 -- channel
-foreign import ccall "FMOD_Channel_GetPosition" fmodChannelGetPosition :: Ptr FModChannel -> Ptr CUInt -> FModTimeUnit -> IO FModResult
-foreign import ccall "FMOD_Channel_SetPosition" fmodChannelSetPosition :: Ptr FModChannel -> Ptr CUInt -> FModTimeUnit -> IO FModResult
-foreign import ccall "FMOD_Channel_SetPaused"   fmodChanellSetPaused   :: Ptr FModChannel -> FModBool -> IO FModResult
+foreign import ccall "FMOD_Channel_GetPosition" fmodChannelGetPosition :: FModChannel -> Ptr CUInt -> FModTimeUnit -> IO FModResult
+foreign import ccall "FMOD_Channel_SetPosition" fmodChannelSetPosition :: FModChannel -> Ptr CUInt -> FModTimeUnit -> IO FModResult
+foreign import ccall "FMOD_Channel_SetPaused"   fmodChanellSetPaused   :: FModChannel -> FModBool -> IO FModResult
 -- sound
-foreign import ccall "FMOD_Sound_GetLength"     fmodSoundGetLength     :: Ptr FModSound -> CUInt -> FModTimeUnit -> IO FModResult
+foreign import ccall "FMOD_Sound_GetLength"     fmodSoundGetLength     :: FModSound -> CUInt -> FModTimeUnit -> IO FModResult

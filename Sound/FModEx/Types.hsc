@@ -21,7 +21,7 @@ import Foreign.Ptr
 #include <fmodex/fmod.h>
 
 -- FMOD_RESULT
-newtype FModResult = FModResult { unFModResult :: CInt } deriving (Eq,Show)
+newtype FModResult = FModResult CInt deriving (Eq,Show)
 #{enum FModResult, FModResult
  , fmod_OK                         = FMOD_OK
  , fmod_ERR_ALREADYLOCKED          = FMOD_ERR_ALREADYLOCKED
@@ -123,7 +123,7 @@ newtype FModResult = FModResult { unFModResult :: CInt } deriving (Eq,Show)
  }
 
 -- FMOD_INITFLAGS
-newtype FModInitFlags = FModInitFlags { unFModInitFlags :: CInt } deriving (Eq,Show)
+newtype FModInitFlags = FModInitFlags CInt deriving (Eq,Show)
 
 #{enum FModInitFlags, FModInitFlags
  , fmod_INIT_NORMAL                    = FMOD_INIT_NORMAL
@@ -149,7 +149,7 @@ newtype FModInitFlags = FModInitFlags { unFModInitFlags :: CInt } deriving (Eq,S
  }
 
 -- FMOD_MODE
-newtype FModMode = FModMode { unFModMode :: CUInt } deriving (Eq,Show)
+newtype FModMode = FModMode CUInt deriving (Eq,Show)
 
 #{enum FModMode, FModMode
  , fmod_DEFAULT                = FMOD_DEFAULT
@@ -191,7 +191,7 @@ newtype FModMode = FModMode { unFModMode :: CUInt } deriving (Eq,Show)
 data FModCreateSoundExInfo = FModCreateSoundExInfo deriving (Eq,Show)
 
 -- FMOD_CHANNELINDEX
-newtype FModChannelIndex = FModChannelIndex { unFModChannelIndex :: CInt } deriving (Eq,Show)
+newtype FModChannelIndex = FModChannelIndex CInt deriving (Eq,Show)
 
 #{enum FModChannelIndex, FModChannelIndex
  , fmod_CHANNEL_FREE  = FMOD_CHANNEL_FREE
@@ -202,7 +202,7 @@ newtype FModChannelIndex = FModChannelIndex { unFModChannelIndex :: CInt } deriv
 type FModBool = CInt
 
 -- FMOD_TIMEUNIT
-newtype FModTimeUnit = FModTimeUnit { unFModTimeUnit :: CUInt } deriving (Eq,Show)
+newtype FModTimeUnit = FModTimeUnit CUInt deriving (Eq,Show)
 
 #{enum FModTimeUnit, FModTimeUnit
  , fmod_TIMEUNIT_MS                = FMOD_TIMEUNIT_MS
