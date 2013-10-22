@@ -2,7 +2,7 @@
 -- documentation, see http://haskell.org/cabal/users-guide/
 
 -- The name of the package.
-name:                hsFModEx
+name:                FModExRaw
 
 -- The package version.  See the Haskell package versioning policy (PVP) 
 -- for standards guiding when and how versions should be incremented.
@@ -13,12 +13,10 @@ name:                hsFModEx
 version:             0.1.0.0
 
 -- A short (one-line) description of the package.
-synopsis:            The Haskell FModEx API.
+synopsis:            The Haskell FModEx raw API.
 
 -- A longer description of the package.
-description:         Haskell FModEx API. For now, it’s very minimalistic binding used for – mainly – play a single streamed
-                     music, pause it and move playing cursor. At some point it will end up in a complete, portable and type-safe
-                     Haskell binding.
+description:         Haskell FModEx raw API. It’s a 1:1 Haskell binding over the famous C API.
 
 -- URL for the project homepage or repository.
 homepage:            https://github.com/skypers/hsFModEx
@@ -53,9 +51,10 @@ library
   -- Extra libraries
   extra-libraries:   fmodex
   -- Modules exported by the library.
-  exposed-modules:     Sound.FModEx
-                     , Sound.FModEx.Functions
-                     , Sound.FModEx.Types
+  exposed-modules:     Sound.FModEx.Raw
+                     , Sound.FModEx.Raw.Core
+                     , Sound.FModEx.Raw.Core.Functions
+                     , Sound.FModEx.Raw.Core.Types
   
   -- Modules included in this library but not exported.
   -- other-modules:       

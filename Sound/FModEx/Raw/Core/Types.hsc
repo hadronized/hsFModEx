@@ -1,7 +1,7 @@
 {-# LANGUAGE CPP, ForeignFunctionInterface #-}
 
 {- |
-Module      :  Sound.FModEx.Types
+Module      :  Sound.FModEx.Raw.Core.Types
 Description :  FModEx library C types binding
 Copyright   :  (c) Dimitri Sabadie
 License     :  GPL-3
@@ -10,10 +10,10 @@ Maintainer  :  dimitri.sabadie@gmail.com
 Stability   :  experimental
 Portability :  Linux only for now
 
-FModEx API C types Haskell binding.
+FModEx API C core types raw Haskell binding.
 -}
 
-module Sound.FModEx.Types where
+module Sound.FModEx.Raw.Core.Types where
 
 import Foreign.C.Types
 import Foreign.Ptr
@@ -671,7 +671,7 @@ data FModReverbProperties = FModReverbProperties {
 -- FMOD_REVERB_FLAGS
 newtype FModReverbFlags = FModReverbFlags CInt deriving (Eq,Show)
 #{enum FModReverbFlags, FModReverbFlags
- , fmod_REVERB_FLAGS_HIGHQUALITYREVERB = FMOD_REVERB_FLAGS_HIGHQUALITYREVERB
+ , fmod_REVERB_FLAGS_HIGHQUALITYREVERB     = FMOD_REVERB_FLAGS_HIGHQUALITYREVERB
  , fmod_REVERB_FLAGS_HIGHQUALITYDPL2REVERB = FMOD_REVERB_FLAGS_HIGHQUALITYDPL2REVERB
  , fmod_REVERB_FLAGS_HARDWAREONLY          = FMOD_REVERB_FLAGS_HARDWAREONLY
  , fmod_REVERB_FLAGS_DEFAULT               = FMOD_REVERB_FLAGS_DEFAULT
@@ -682,10 +682,51 @@ newtype FModReverbFlags = FModReverbFlags CInt deriving (Eq,Show)
 
 -- FMOD_REVERB_CHANNELPROPERTIES
 data FModReverbChannelProperties = FModReverbChannelProperties {
-    fmod_ReverbChannelPropertiesDirect :: CInt
-  , fmod_ReverbChannelPropertiesRoom   :: CInt
-  , fmod_ReverbChannelPropertiesFlags  :: CUInt
+    fmod_ReverbChannelPropertiesDirect          :: CInt
+  , fmod_ReverbChannelPropertiesRoom            :: CInt
+  , fmod_ReverbChannelPropertiesFlags           :: FModReverbChannelFlags
   , fmod_ReverbChannelPropertiesConnectionPoint :: FModDSP
   } deriving (Eq,Show)
  
 -- FMOD_REVERB_CHANNELFLAGS
+newtype FModReverbChannelFlags = FModReverbChannelFlags CUInt deriving (Eq,Show)
+#{enum FModReverbChannelFlags, FModReverbChannelFlags
+ , fmod_REVERB_CHANNELFLAGS_INSTANCE0 = FMOD_REVERB_CHANNELFLAGS_INSTANCE0
+ , fmod_REVERB_CHANNELFLAGS_INSTANCE1 = FMOD_REVERB_CHANNELFLAGS_INSTANCE1
+ , fmod_REVERB_CHANNELFLAGS_INSTANCE2 = FMOD_REVERB_CHANNELFLAGS_INSTANCE2
+ , fmod_REVERB_CHANNELFLAGS_INSTANCE3 = FMOD_REVERB_CHANNELFLAGS_INSTANCE3
+ , fmod_REVERB_CHANNELFLAGS_DEFAULT   = FMOD_REVERB_CHANNELFLAGS_DEFAULT
+ }
+
+-- FMOD_ADVANCEDSETTINGS
+data FModAdvancedSettings = FModAdvancedSettings {
+    fmod_AdvancedSettingsCBSize                     :: CInt
+  , fmod_AdvancedSettingsMaxMPEGCodecs              :: CInt
+  , fmod_AdvancedSettingsMaxADPMCodecs              :: CInt
+  , fmod_AdvancedSettingsMaxXMACodecs               :: CInt
+  , fmod_AdvancedSettingsMaxCELTCodecs              :: CInt
+  , fmod_AdvancedSettingsMaxVORBISCodecs            :: CInt
+  , fmod_AdvancedSettingsMaxPCMCodecs               :: CInt
+  , fmod_AdvancedSettingsASIONumChannels            :: CInt
+  , fmod_AdvancedSettingsASIOChannelListe           :: Ptr (Ptr CChar)
+  , fmod_AdvancedSettingsASIOSpeakerList            :: Ptr FModSpeaker
+  , fmod_AdvancedSettingsMax3DReverbDSPs            :: CInt
+  , fmod_AdvancedSettingsHRTFMinAngle               :: CFloat
+  , fmod_AdvancedSettingsHRTFMaxAngle               :: CFloat
+  , fmod_AdvancedSettingsHRTFFreq                   :: CFloat
+  , fmod_AdvancedSettingsVol0VirtualVol             :: CFloat
+  , fmod_AdvancedSettingsEventQueueSize             :: CInt
+  , fmod_AdvancedSettingsDefaultDecodeBufferSize    :: CUInt
+  , fmod_AdvancedSettingsDebugLogFilename           :: CString
+  , fmod_AdvancedSettingsGeometryMaxFadeTime        :: CUInt
+  , fmod_AdvancedSettingsMaxSpectrumWaveDataBuffers :: CUInt
+  , fmod_AdvancedSettingsMusicSystemCacheDelay      :: CUInt
+  , fmod_AdvancedSettingsdistanceFilterCenterFreq   :: CFloat
+  } deriving (Eq,Show)
+
+-- FMOD_CHANNELINDEX
+newtype FModChannelIndex = FModChannelIndex CInt deriving (Eq,Show)
+#{enum FModChannelIndex, FModChannelIndex
+ , fmod_CHANNEL_FREE  = FMOD_CHANNEL_FREE
+ , fmod_CHANNEL_REUSE = FMOD_CHANNEL_REUSE
+ }
