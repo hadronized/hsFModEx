@@ -208,7 +208,7 @@ newtype FModOutputType = FModOutputType CInt deriving (Eq,Show)
  }
 
 -- FMOD_CAPS
-newtype FModCaps = FModCaps CInt deriving (Eq,Show)
+newtype FModCaps = FModCaps CUInt deriving (Eq,Show)
 #{enum FModCaps, FModCaps
  , fmod_CAPS_NONE                    = FMOD_CAPS_NONE
  , fmod_CAPS_HARDWARE                = FMOD_CAPS_HARDWARE
@@ -224,7 +224,7 @@ newtype FModCaps = FModCaps CInt deriving (Eq,Show)
  }
 
 -- FMOD_DEBUGLEVEL
-newtype FModDebugLevel = FModDebugLevel CInt deriving (Eq,Show)
+newtype FModDebugLevel = FModDebugLevel CUInt deriving (Eq,Show)
 #{enum FModDebugLevel, FModDebugLevel
  , fmod_DEBUG_LEVEL_NONE          = FMOD_DEBUG_LEVEL_NONE
  , fmod_DEBUG_LEVEL_LOG           = FMOD_DEBUG_LEVEL_LOG
@@ -247,7 +247,7 @@ newtype FModDebugLevel = FModDebugLevel CInt deriving (Eq,Show)
  }
 
 -- FMOD_MEMORYTYPE
-newtype FModMemoryType = FModMemoryType CInt deriving (Eq,Show)
+newtype FModMemoryType = FModMemoryType CUInt deriving (Eq,Show)
 #{enum FModMemoryType, FModMemoryType
  , fmod_MEMORY_NORMAL           = FMOD_MEMORY_NORMAL
  , fmod_MEMORY_STREAM_FILE      = FMOD_MEMORY_STREAM_FILE
@@ -466,29 +466,122 @@ newtype FModChannelCallbackType = FModChannelCallbackType CInt deriving (Eq,Show
 -- FMOD_SYSTEM_CALLBACKTYPE
 newtype FModSystemCallbackType = FModSystemCallbackType CInt deriving (Eq,Show)
 #{enum FModSystemCallbackType, FModSystemCallbackType
- , fmod_SYSTEM_CALLBACKTYPE_DEVICELISTCHANGED = FMOD_SYSTEM_CALLBACKTYPE_DEVICELISTCHANGED
- , fmod_SYSTEM_CALLBACKTYPE_DEVICELOST = FMOD_SYSTEM_CALLBACKTYPE_DEVICELOST
+ , fmod_SYSTEM_CALLBACKTYPE_DEVICELISTCHANGED      = FMOD_SYSTEM_CALLBACKTYPE_DEVICELISTCHANGED
+ , fmod_SYSTEM_CALLBACKTYPE_DEVICELOST             = FMOD_SYSTEM_CALLBACKTYPE_DEVICELOST
  , fmod_SYSTEM_CALLBACKTYPE_MEMORYALLOCATIONFAILED = FMOD_SYSTEM_CALLBACKTYPE_MEMORYALLOCATIONFAILED
- , fmod_SYSTEM_CALLBACKYTPE_
-
--- FMOD_CREATESOUNDEXINFO
--- TODO
-data FModCreateSoundExInfo = FModCreateSoundExInfo deriving (Eq,Show)
-
--- FMOD_CHANNELINDEX
-newtype FModChannelIndex = FModChannelIndex CInt deriving (Eq,Show)
-
-#{enum FModChannelIndex, FModChannelIndex
- , fmod_CHANNEL_FREE  = FMOD_CHANNEL_FREE
- , fmod_CHANNEL_REUSE = FMOD_CHANNEL_REUSE
+ , fmod_SYSTEM_CALLBACKTYPE_THREADCREATED          = FMOD_SYSTEM_CALLBACKTYPE_THREADCREATED
+ , fmod_SYSTEM_CALLBACKTYPE_BADDSPCONNECTION       = FMOD_SYSTEM_CALLBACKTYPE_BADDSPCONNECTION
+ , fmod_SYSTEM_CALLBACKTYPE_BADDSPLEVEL            = FMOD_SYSTEM_CALLBACKTYPE_BADDSPLEVEL
+ , fmod_SYSTEM_CALLBACKTYPE_MAX                    = FMOD_SYSTEM_CALLBACKTYPE_MAX
+ , fmod_SYSTEM_CALLBACKTYPE_FORCEINT               = FMOD_SYSTEM_CALLBACKTYPE_FORCEINT
  }
 
--- FMOD_BOOL
-type FModBool = CInt
+-- FMOD Callbacks
+type FModSystemCallback          = FunPtr (Ptr FModSystem -> FModSystemCallbackType -> Ptr () -> Ptr () -> IO FModResult)
+type FModSChannelCallback        = FunPtr (Ptr FModChannel -> FModChannelCallbackType -> Ptr () -> Ptr () -> IO FModResult)
+type FModSoundNonBlockCallback   = FunPtr (Ptr FModSound -> FModResult -> IO FModResult)
+type FModSoundPCMReadCallback    = FunPtr (Ptr FModSound -> Ptr () -> CUInt -> IO FModResult)
+type FModSoundPCMSetPosCallback  = FunPtr (Ptr FModSound -> CInt -> CUInt -> FModTimeUnit -> IO FModResult)
+type FModFileOpenCallback        = FunPtr (CString -> CInt -> CUInt -> Ptr (Ptr ()) -> Ptr (Ptr ()) -> IO FModResult)
+type FModFileCloseCallback       = FunPtr (Ptr () -> Ptr () -> IO FModResult)
+type FModFileReadCallback        = FunPtr (Ptr () -> Ptr () -> CUInt -> Ptr CUInt -> Ptr () -> IO FModResult)
+type FModFileSeekCallback        = FunPtr (Ptr () -> CUInt -> Ptr () -> IO FModResult)
+type FModFileAsyncReadCallback   = FunPtr (Ptr FModAsyncReadInfo -> Ptr () -> IO FModResult)
+type FModFileAsyncCancelCallback = FunPtr (Ptr () -> Ptr () -> IO FModResult)
+type FModMemoryAllocCallback     = FunPtr (CUInt -> FModMemoryType -> CString -> IO (Ptr ()))
+type FModMemoryReallocCallback   = FunPtr (Ptr () -> CUInt -> FModMemoryType -> CString -> IO (Ptr ()))
+type FModMemoryFreeCallback      = FunPtr (Ptr () -> FModMemoryType -> CString -> IO ())
+type FMod3DRollOffCallback       = FunPtr (Ptr FModChannel -> CFloat -> IO Float)
+
+-- FMOD_DSP_FFT_WINDOW
+newtype FModDSPFFTWindow = FModDSPFFTWindow CInt deriving (Eq,Show)
+#{enum FModDSPFFTWindow, FModDSPFFTWindow
+ , fmod_DSP_FFT_WINDOW_RECT           = FMOD_DSP_FFT_WINDOW_RECT
+ , fmod_DSP_FFT_WINDOW_TRIANGLE       = FMOD_DSP_FFT_WINDOW_TRIANGLE
+ , fmod_DSP_FFT_WINDOW_HAMMING        = FMOD_DSP_FFT_WINDOW_HAMMING
+ , fmod_DSP_FFT_WINDOW_BLACKMAN       = FMOD_DSP_FFT_WINDOW_BLACKMAN
+ , fmod_DSP_FFT_WINDOW_BLACKMANHARRIS = FMOD_DSP_FFT_WINDOW_BLACKMANHARRIS
+ , fmod_DSP_FFT_WINDOW_MAX            = FMOD_DSP_FFT_WINDOW_MAX
+ , fmod_DSP_FFT_WINDOW_FORCEINT       = FMOD_DSP_FFT_WINDOW_FORCEINT
+ }
+
+-- FMOD_DSP_RESAMPLER
+newtype FModDSPResampler = FModDSPResampler CInt deriving (Eq,Show)
+#{enum FModDSPResampler, FModDSPResampler
+ , fmod_DSP_RESAMPLER_NOINTERP = FMOD_DSP_RESAMPLER_NOINTERP
+ , fmod_DSP_RESAMPLER_LINEAR   = FMOD_DSP_RESAMPLER_LINEAR
+ , fmod_DSP_RESAMPLER_CUBIC    = FMOD_DSP_RESAMPLER_CUBIC
+ , fmod_DSP_RESAMPLER_SPLINE   = FMOD_DSP_RESAMPLER_SPLINE
+ , fmod_DSP_RESAMPLER_MAX      = FMOD_DSP_RESAMPLER_MAX
+ , fmod_DSP_RESAMPLER_FORCEINT = FMOD_DSP_RESAMPLER_FORCEINT
+ }
+
+-- FMOD_TAGTYPE
+newtype FModTagType = FModTagType CInt deriving (Eq,Show)
+#{enum FModTagType, FModTagType
+ , fmod_TAGTYPE_UNKNOWN       = FMOD_TAGTYPE_UNKNOWN
+ , fmod_TAGTYPE_ID3V1         = FMOD_TAGTYPE_ID3V1
+ , fmod_TAGTYPE_ID3V2         = FMOD_TAGTYPE_ID3V2
+ , fmod_TAGTYPE_VORBISCOMMENT = FMOD_TAGTYPE_VORBISCOMMENT
+ , fmod_TAGTYPE_SHOUTCAST     = FMOD_TAGTYPE_SHOUTCAST
+ , fmod_TAGTYPE_ICECAST       = FMOD_TAGTYPE_ICECAST
+ , fmod_TAGTYPE_ASF           = FMOD_TAGTYPE_ASF
+ , fmod_TAGTYPE_MIDI          = FMOD_TAGTYPE_MIDI
+ , fmod_TAGTYPE_PLAYLIST      = FMOD_TAGTYPE_PLAYLIST
+ , fmod_TAGTYPE_FMOD          = FMOD_TAGTYPE_FMOD
+ , fmod_TAGTYPE_USER          = FMOD_TAGTYPE_USER
+ , fmod_TAGTYPE_MAX           = FMOD_TAGTYPE_MAX
+ , fmod_TAGTYPE_FORCEINT      = FMOD_TAGTYPE_FORCEINT
+ }
+
+-- FMOD_TAGDATATYPE
+newtype FModTagDataType = FModTagDataType CInt deriving (Eq,Show)
+#{enum FModTagDataType, FModTagType
+ , fmod_TAGDATATYPE_BINARY         = FMOD_TAGDATATYPE_BINARY
+ , fmod_TAGDATATYPE_INT            = FMOD_TAGDATATYPE_INT
+ , fmod_TAGDATATYPE_FLOAT          = FMOD_TAGDATATYPE_FLOAT
+ , fmod_TAGDATATYPE_STRING         = FMOD_TAGDATATYPE_STRING
+ , fmod_TAGDATATYPE_STRING_UTF16   = FMOD_TAGDATATYPE_STRING_UTF16
+ , fmod_TAGDATATYPE_STRING_UTF16BE = FMOD_TAGDATATYPE_STRING_UTF16BE
+ , fmod_TAGDATATYPE_STRING_UTF8    = FMOD_TAGDATATYPE_STRING_UTF8
+ , fmod_TAGDATATYPE_CDTOC          = FMOD_TAGDATATYPE_CDTOC
+ , fmod_TAGDATATYPE_MAX            = FMOD_TAGDATATYPE_MAX
+ , fmod_TAGDATATYPE_FORCEINT       = FMOD_TAGDATATYPE_FORCEINT
+ }
+
+-- FMOD_DELAYTYPE
+newtype FModDelayType = FModDelayType CInt deriving (Eq,Show)
+#{enum FModDelayType, FModDelayType
+ , fmod_DELAYTYPE_END_MS = FMOD_DELAYTYPE_END_MS
+ , fmod_DELAYTYPE_DSPCLOCK_START = FMOD_DELAYTYPE_DSPCLOCK_START
+ , fmod_DELAYTYPE_DSPCLOCK_END   = FMOD_DELAYTYPE_DSPCLOCK_END
+ , fmod_DELAYTYPE_DSPCLOCK_PAUSE = FMOD_DELAYTYPE_DSPCLOCK_PAUSE
+ , fmod_DELAYTYPE_MAX            = FMOD_DELAYTYPE_MAX
+ , fmod_DELAYTYPE_FORCEINT       = FMOD_DELAYTYPE_FORCEINT
+ }
+
+-- FMOD_TAG
+data FModTag = FModTag {
+    fmod_TagType     :: FModTagtype
+  , fmod_TagdataType :: FModTagDatatType
+  , fmod_TagName     :: CString
+  , fmod_TagData     :: Ptr ()
+  , fmod_TagDataLen  :: CUInt
+  , fmod_TagUpdated  :: FModBool
+  } deriving (Eq,Show)
+
+
+-- FMOD_CDTOC
+-- FIXME: fmod_CDTOC{Min,Max,Frame} are, in C, int[100]
+data FModCDTOC = FModCDTOC {
+    fmod_CDTOCNumTracks :: CInt
+  , fmod_CDTOCMin       :: Ptr CInt
+  , fmod_CDTOCMax       :: Ptr CInt
+  , fmod_CDTOCFrame     :: Ptr CInt
+  } deriving (Eq,Show)
 
 -- FMOD_TIMEUNIT
-newtype FModTimeUnit = FModTimeUnit CUInt deriving (Eq,Show)
-
+newtype FModTimeUnit = FModTimeUnit CUint deriving (Eq,Show)
 #{enum FModTimeUnit, FModTimeUnit
  , fmod_TIMEUNIT_MS                = FMOD_TIMEUNIT_MS
  , fmod_TIMEUNIT_PCM               = FMOD_TIMEUNIT_PCM
@@ -496,7 +589,6 @@ newtype FModTimeUnit = FModTimeUnit CUInt deriving (Eq,Show)
  , fmod_TIMEUNIT_RAWBYTES          = FMOD_TIMEUNIT_RAWBYTES
  , fmod_TIMEUNIT_PCMFRACTION       = FMOD_TIMEUNIT_PCMFRACTION
  , fmod_TIMEUNIT_MODORDER          = FMOD_TIMEUNIT_MODORDER
- , fmod_TIMEUNIT_MODROW            = FMOD_TIMEUNIT_MODROW
  , fmod_TIMEUNIT_MODPATTERN        = FMOD_TIMEUNIT_MODPATTERN
  , fmod_TIMEUNIT_SENTENCE_MS       = FMOD_TIMEUNIT_SENTENCE_MS
  , fmod_TIMEUNIT_SENTENCE_PCM      = FMOD_TIMEUNIT_SENTENCE_PCM
@@ -506,14 +598,94 @@ newtype FModTimeUnit = FModTimeUnit CUInt deriving (Eq,Show)
  , fmod_TIMEUNIT_BUFFERED          = FMOD_TIMEUNIT_BUFFERED
  }
 
--- FMOD_SOUND
---data FModSound = FModSound deriving (Eq,Show)
-type FModSound = Ptr ()
+-- FMOD_SPEAKERMAPTYPE
+newtype FModSpeakerMapType = FModSpeakerMapType CInt deriving (Eq,Show)
+#{enum FModSpeakerMapType, FModSpeakerMaptype
+ , fmod_SPEAKERMAPTYPE_DEFAULT     = FMOD_SPEAKERMAPTYPE_DEFAULT
+ , fmod_SPEAKERMAPTYPE_ALLMONO     = FMOD_SPEAKERMAPTYPE_ALLMONO
+ , fmod_SPEAKERMAPTYPE_ALLSTEREO   = FMOD_SPEAKERMAPTYPE_ALLSTEREO
+ , fmod_SPEAKERMAPTYPE_51_PROTOOLS = FMOD_SPEAKERMAPTYPE_51_PROTOOLS
+ }
 
--- FMOD_CHANNEL
---data FModChannel = FModChannel deriving (Eq,Show)
-type FModChannel = Ptr ()
+-- FMOD_CREATESOUNDEXINFO
+data FModCreateSoundExInfo = FModCreateSoundExInfo {
+    fmod_CreateSoundExInfoCBSize              :: CInt
+  , fmod_CreateSoundExInfoLength              :: CUInt
+  , fmod_CreateSoundExInfoFileOffset          :: CUInt
+  , fmod_CreateSoundExInfoNumChannels         :: CInt
+  , fmod_CreateSoundExInfoDefaultFrequency    :: CInt
+  , fmod_CreateSoundExInfoFormat              :: FModSoundFormat
+  , fmod_CreateSoundExInfoDecodeBufferSize    :: CUInt
+  , fmod_CreateSoundExInfoInitialSubsound     :: CInt
+  , fmod_CreateSoundExInfoNumSubsounds        :: CInt
+  , fmod_CreateSoundExInfoInclusionList       :: Ptr CInt
+  , fmod_CreateSoundExInfoInclusionListNum    :: CInt
+  , fmod_CreateSoundExInfoPCMReadCallback     :: FModSoundPCMReadCallback
+  , fmod_CreateSoundExInfoPCMSetPosCallback   :: FModSoundPCMSetPosCallback
+  , fmod_CreateSoundExInfocANonBlockCallback  :: FModSoundNonBlockCallback
+  , fmod_CreateSoundExInfoDLSName             :: CString
+  , fmod_CreateSoundExInfoEncryptionKey       :: CString
+  , fmod_CreateSoundExInfoMaxPolyphony        :: CInt
+  , fmod_CreateSoundExInfoUserData            :: Ptr ()
+  , fmod_CreateSoundExInfoSuggestedSoundType  :: FModSoundType
+  , fmod_CreateSoundExInfoUserOpen            :: FModFileOpenCallback
+  , fmod_CreateSoundExInfoUserClose           :: FModFileCloseCallback
+  , fmod_CreateSoundExInfoUserRead            :: FModFileReadCallback
+  , fmod_CreateSoundExInfoUserSeek            :: FModFileSeekCallback
+  , fmod_CreateSoundExInfoUserAsyncRead       :: FModFileAsyncReadCallback
+  , fmod_CreateSoundExInfoUserAsyncCancel     :: FModFileAsyncCancelCallback
+  , fmod_CreateSoundExInfoSpeakerMap          :: FModSpeakerMapType
+  , fmod_CreateSoundExInfoInitialSoundGroup   :: Ptr FModSoundGroup
+  , fmod_CreateSoundExInfoInitialSeekPosition :: CUint
+  , fmod_CreateSoundExInfoInitialSeekPosType  :: FModTimeUnit
+  , fmod_CreateSoundExInfoIgnoreSetFileSystem :: CInt
+  , fmod_CreateSoundExInfoCDDAForceASPI       :: CInt
+  , fmod_CreateSoundExInfoAudioQueuePolicy    :: CUInt
+  , fmod_CreateSoundExInfoMinMIDIGranularity  :: CUInt
+  , fmod_CreateSoundExInfoNonBlockThreadID    :: CInt
+  } deriving (Eq,Show)
 
--- FMOD_SYSTEM
---data FModSystem = FModSystem deriving (Eq,Show)
-type FModSystem = Ptr ()
+-- FMOD_REVERB_PROPERTIES
+data FModReverbProperties = FModReverbProperties {
+    fmod_ReverbPropertiesInstance       :: CInt
+  , fmod_ReverPropertiesEnvironment     :: CInt
+  , fmod_ReverPropertiesEnvDiffusion    :: CFloat
+  , fmod_ReverPropertiesRoom            :: CInt
+  , fmod_ReverPropertiesRoomHF          :: CInt
+  , fmod_ReverPropertiesRoomLF          :: CInt
+  , fmod_ReverPropertiesDecayTime       :: CFloat
+  , fmod_ReverPropertiesDecayHFRatio    :: CFloat
+  , fmod_ReverPropertiesDecayLFRatio    :: CFLoat
+  , fmod_ReverPropertiesReflections     :: CInt
+  , fmod_ReverPropertiesReverb          :: CInt
+  , fmod_ReverPropertiesReverbDelay     :: CFloat
+  , fmod_ReverPropertiesModulationTime  :: CFloat
+  , fmod_ReverPropertiesModulationDepth :: CFloat
+  , fmod_ReverPropertiesHFReference     :: CFloat
+  , fmod_ReverPropertiesLFReference     :: CFloat
+  , fmod_ReverPropertiesDiffusion       :: CFloat
+  , fmod_ReverPropertiesDensity         :: CFloat
+  , fmod_ReverPropertiesFlags           :: CUInt
+  }
+
+-- FMOD_REVERB_FLAGS
+newtype FModReverbFlags = FModReverbFlags CInt deriving (Eq,Show)
+#{enum FModReverbFlags, FModReverbFlags
+ , fmod_REVERB_FLAGS_HIGHQUALITYREVERB = FMOD_REVERB_FLAGS_HIGHQUALITYREVERB
+ , fmod_REVERB_FLAGS_HIGHQUALITYDPL2REVERB = FMOD_REVERB_FLAGS_HIGHQUALITYDPL2REVERB
+ , fmod_REVERB_FLAGS_HARDWAREONLY          = FMOD_REVERB_FLAGS_HARDWAREONLY
+ , fmod_REVERB_FLAGS_DEFAULT               = FMOD_REVERB_FLAGS_DEFAULT
+ }
+
+-- FMOD_REVERB_PRESETS
+-- TODO: see how to deal with that
+
+-- FMOD_REVERB_CHANNELPROPERTIES
+data FModReverbChannelProperties = FModReverbChannelProperties {
+    fmod_ReverbChannelPropertiesDirect :: CInt
+  , fmod_ReverbChannelPropertiesRoom   :: CInt
+  , fmod_ReverbChannelPropertiesFlags  :: CUInt
+  , fmod_ReverbChannelPropertiesConnectionPoint :: FModDSP
+  } deriving (Eq,Show)
+ 
+-- FMOD_REVERB_CHANNELFLAGS

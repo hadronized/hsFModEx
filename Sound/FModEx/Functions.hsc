@@ -20,6 +20,10 @@ import Foreign.C.String
 import Foreign.C.Types
 import Sound.FModEx.Types
 
+-- macro, TODO
+#define FMOD_64BIT_ADD(_hi1, _lo1, _hi2, _lo2) _hi1 += ((_hi2) + ((((_lo1) + (_lo2)) < (_lo1)) ? 1 : 0)); (_lo1) += (_lo2);
+#define FMOD_64BIT_SUB(_hi1, _lo1, _hi2, _lo2) _hi1 -= ((_hi2) + ((((_lo1) - (_lo2)) > (_lo1)) ? 1 : 0)); (_lo1) -= (_lo2);
+
 -- system
 foreign import ccall "FMOD_System_Create"       fmodSystemCreate       :: Ptr FModSystem -> IO FModResult
 foreign import ccall "FMOD_System_Init"         fmodSystemInit         :: FModSystem -> CInt -> FModInitFlags -> Ptr a -> IO FModResult
