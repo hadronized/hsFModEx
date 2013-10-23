@@ -23,7 +23,7 @@ import Sound.FModEx.Raw.Core.Types
 type FModCodecOpenCallback        = FunPtr (Ptr FModCodecState -> FModMode -> Ptr FModCreateSoundExInfo -> IO FModResult)
 type FModCodecCloseCallback       = FunPtr (Ptr FModCodecState -> IO FModResult)
 type FModCodecReadCallback        = FunPtr (Ptr FModCodecState -> Ptr () -> CUInt -> Ptr CUInt -> IO FModResult)
-type FModCodecGetLengthCallback   = FunPtr (Ptr FModCodecState -> Ptr CUInt -> FModTimeUnit -> IO FModResult)
+type FModCodecGetLengthCallback   = FunPtr (Ptr FModCodecState -> Ptr CUInt -> FModTimeUnit -> IO FModResult)
 type FModCodecSetPositionCallback = FunPtr (Ptr FModCodecState -> CInt -> CIUnt -> FModTimeUnit -> IO FModResult)
 type FModCodecGetPositionCallback = FunPtr (Ptr FModCodecState -> Ptr CUInt -> FModTimeUnit -> IO FModResult)
 type FModCodecSoundCreateCallback = FunPtr (Ptr FModCodecState -> CInt -> Ptr FModSound -> IO FModResult)
