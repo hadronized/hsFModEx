@@ -17,6 +17,9 @@ module Sound.FModEx.Raw.Memory.Types where
 
 import Foreign.C.Types
 
+#include <fmodex/fmod.h>
+#include <fmodex/fmod_memoryinfo.h>
+
 -- FMOD_MEMORY_USAGE_DETAILS
 data FModMemoryUsageDetails = FModMemoryUsageDetails {
     fmod_MemoryUsageDetailsOther                 :: CUInt
@@ -74,7 +77,7 @@ newtype FModMemBits = FModMemBits CInt deriving (Eq,Show)
  , fmod_MEMBITS_OTHER              = FMOD_MEMBITS_OTHER
  , fmod_MEMBITS_STRING             = FMOD_MEMBITS_STRING
  , fmod_MEMBITS_SYSTEM             = FMOD_MEMBITS_SYSTEM
- , fmod_MEMBITS_PLUGINS            = FMOD_MEMBITS_PLUGIN
+ , fmod_MEMBITS_PLUGINS            = FMOD_MEMBITS_PLUGINS
  , fmod_MEMBITS_OUTPUT             = FMOD_MEMBITS_OUTPUT
  , fmod_MEMBITS_CHANNEL            = FMOD_MEMBITS_CHANNEL
  , fmod_MEMBITS_CHANNELGROUP       = FMOD_MEMBITS_CHANNELGROUP
@@ -97,8 +100,8 @@ newtype FModMemBits = FModMemBits CInt deriving (Eq,Show)
  }
 
 -- FMOD_EVENT_MEMBITS
-newtype FModEventMemBits = FModMemBits CInt deriving (Eq,Show)
-#{enum FModEventMembBits, FModEventMemBits
+newtype FModEventMemBits = FModEventMemBits CInt deriving (Eq,Show)
+#{enum FModEventMemBits, FModEventMemBits
  , fmod_EVENT_MEMBITS_EVENTSYSTEM           = FMOD_EVENT_MEMBITS_EVENTSYSTEM
  , fmod_EVENT_MEMBITS_MUSICSYSTEM           = FMOD_EVENT_MEMBITS_MUSICSYSTEM
  , fmod_EVENT_MEMBITS_FEV                   = FMOD_EVENT_MEMBITS_FEV

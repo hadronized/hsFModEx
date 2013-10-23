@@ -15,33 +15,25 @@ FModEx API C core types raw Haskell binding.
 
 module Sound.FModEx.Raw.Core.Types where
 
+import Foreign.C.String
 import Foreign.C.Types
 import Foreign.Ptr
 
 #include <fmodex/fmod.h>
 
--- Written in the same order symbols appear in fmod.h
-
 -- FMOD types
 type FModBool          = CInt
-data FModSystem        = FModSystem
-data FModSound         = FModSound
-data FModChannel       = FModChannel
-data FModChannelGroup  = FModChannelGroup)
-data FModSoundGroup    = FModSoundGroup
-data FModReverb        = FModReverb
-data FModDSP           = FModDSP
-data FModDSPConnection = FModDSPConnection
-data FModPolygon       = FModPolygon
-data FModGeometry      = FModGeometry
-data FModSyncPoint     = FModSyncPoint
--- FIXME: I thing these below need newtype and some boolean stuff around
-type FModMode          = CUInt
-type FModTimeUnit      = CUInt
-type FModInitFlags     = CUInt
--- FMOD_CAPS: see FModCaps
--- FMOD_DEBUGLEVEL: see FModDebugLevel
--- FMOD_MEMORYTYPE: see FModMemoryType
+data FModSystem        = FModSystem        deriving (Eq,Show)
+data FModSound         = FModSound         deriving (Eq,Show)
+data FModChannel       = FModChannel       deriving (Eq,Show)
+data FModChannelGroup  = FModChannelGroup  deriving (Eq,Show)
+data FModSoundGroup    = FModSoundGroup    deriving (Eq,Show)
+data FModReverb        = FModReverb        deriving (Eq,Show)
+data FModDSP           = FModDSP           deriving (Eq,Show)
+data FModDSPConnection = FModDSPConnection deriving (Eq,Show)
+data FModPolygon       = FModPolygon       deriving (Eq,Show)
+data FModGeometry      = FModGeometry      deriving (Eq,Show)
+data FModSyncPoint     = FModSyncPoint     deriving (Eq,Show)
 
 -- FMOD_RESULT
 newtype FModResult = FModResult CInt deriving (Eq,Show)
@@ -202,7 +194,6 @@ newtype FModOutputType = FModOutputType CInt deriving (Eq,Show)
  , fmod_OUTPUTTYPE_NACL          = FMOD_OUTPUTTYPE_NACL
  , fmod_OUTPUTTYPE_WIIU          = FMOD_OUTPUTTYPE_WIIU
  , fmod_OUTPUTTYPE_ASOUND        = FMOD_OUTPUTTYPE_ASOUND
- , fmod_OUTPUTTYPE_XAUDIO        = FMOD_OUTPUTTYPE_XAUDIO
  , fmod_OUTPUTTYPE_MAX           = FMOD_OUTPUTTYPE_MAX
  , fmod_OUTPUTTYPE_FORCEINT      = FMOD_OUTPUTTYPE_FORCEINT
  }
@@ -220,7 +211,6 @@ newtype FModCaps = FModCaps CUInt deriving (Eq,Show)
  , fmod_CAPS_OUTPUT_FORMAT_PCM32     = FMOD_CAPS_OUTPUT_FORMAT_PCM32
  , fmod_CAPS_OUTPUT_FORMAT_PCM_FLOAT = FMOD_CAPS_OUTPUT_FORMAT_PCMFLOAT
  , fmod_CAPS_REVERB_LIMITED          = FMOD_CAPS_REVERB_LIMITED
- , fmod_CAPS_LOOPBACK                = FMOD_CAPS_LOOPBACK
  }
 
 -- FMOD_DEBUGLEVEL
@@ -271,14 +261,13 @@ newtype FModSpeakerMode = FModSpeakerMode CInt deriving (Eq,Show)
  , fmod_SPEAKERMODE_5POINT1         = FMOD_SPEAKERMODE_5POINT1
  , fmod_SPEAKERMODE_7POINT1         = FMOD_SPEAKERMODE_7POINT1
  , fmod_SPEAKERMODE_SRS5_1_MATRIX   = FMOD_SPEAKERMODE_SRS5_1_MATRIX
- , fmod_SPEAKERMODE_DOLBY5_1_MATRIX = FMOD_SPEAKERMODE_DOLBY5_1_MATRIX
  , fmod_SPEAKERMODE_MYEARS          = FMOD_SPEAKERMODE_MYEARS
  , fmod_SPEAKERMODE_MAX             = FMOD_SPEAKERMODE_MAX
  , fmod_FORCEINT                    = FMOD_SPEAKERMODE_FORCEINT
  }
 
 -- FMOD_SPEAKER
-newtype FModSpeaker = FModSpeaker CInt deriving (Eq,SHow)
+newtype FModSpeaker = FModSpeaker CInt deriving (Eq,Show)
 #{enum FModSpeaker, FModSpeaker
  , fmod_SPEAKER_FRONT_LEFT    = FMOD_SPEAKER_FRONT_LEFT
  , fmod_SPEAKER_FRONT_RIGHT   = FMOD_SPEAKER_FRONT_RIGHT
@@ -289,7 +278,7 @@ newtype FModSpeaker = FModSpeaker CInt deriving (Eq,SHow)
  , fmod_SPEAKER_SIDE_LEFT     = FMOD_SPEAKER_SIDE_LEFT
  , fmod_SPEAKER_SIDE_RIGHT    = FMOD_SPEAKER_SIDE_RIGHT
  , fmod_SPEAKER_MAX           = FMOD_SPEAKER_MAX
- , fmod_SPEAKER_MONO          = FMOD_SPEAKER_MONO
+ , fmod_SPEAKER_MONO          = FMOD_SPEAKER_MONO
  , fmod_SPEAKER_NULL          = FMOD_SPEAKER_NULL
  , fmod_SPEAKER_SBL           = FMOD_SPEAKER_SBL
  , fmod_SPEAKER_SBR           = FMOD_SPEAKER_SBR
@@ -303,7 +292,7 @@ newtype FModPluginType = FModPluginType CInt deriving (Eq,Show)
  , fmod_PLUGINTYPE_CODEC    = FMOD_PLUGINTYPE_CODEC
  , fmod_PLUGINTYPE_DSP      = FMOD_PLUGINTYPE_DSP
  , fmod_PLUGINTYPE_MAX      = FMOD_PLUGINTYPE_MAX
- , fmod_PLUGINTYPE_FORCEINT = FMOD_PLUGINTYPE_FORCINT
+ , fmod_PLUGINTYPE_FORCEINT = FMOD_PLUGINTYPE_FORCEINT
  }
 
 -- FMOD_INITFLAGS
@@ -454,7 +443,7 @@ newtype FModSoundGroupBehavior = FModSoundGroupBehavior CInt deriving (Eq,Show)
 
 -- FMOD_CHANNEL_CALLBACKTYPE
 newtype FModChannelCallbackType = FModChannelCallbackType CInt deriving (Eq,Show)
-#{enum FModChannelCallbacktType, FModChannelCallbackType
+#{enum FModChannelCallbackType, FModChannelCallbackType
  , fmod_CHANNEL_CALLBACKYTPE_END          = FMOD_CHANNEL_CALLBACKTYPE_END
  , fmod_CHANNEL_CALLBACKTYPE_VIRTUALVOICE = FMOD_CHANNEL_CALLBACKTYPE_VIRTUALVOICE
  , fmod_CHANNEL_CALLBACKYTPE_SYNCPOINT    = FMOD_CHANNEL_CALLBACKTYPE_SYNCPOINT
@@ -536,7 +525,7 @@ newtype FModTagType = FModTagType CInt deriving (Eq,Show)
 
 -- FMOD_TAGDATATYPE
 newtype FModTagDataType = FModTagDataType CInt deriving (Eq,Show)
-#{enum FModTagDataType, FModTagType
+#{enum FModTagDataType, FModTagDataType
  , fmod_TAGDATATYPE_BINARY         = FMOD_TAGDATATYPE_BINARY
  , fmod_TAGDATATYPE_INT            = FMOD_TAGDATATYPE_INT
  , fmod_TAGDATATYPE_FLOAT          = FMOD_TAGDATATYPE_FLOAT
@@ -562,8 +551,8 @@ newtype FModDelayType = FModDelayType CInt deriving (Eq,Show)
 
 -- FMOD_TAG
 data FModTag = FModTag {
-    fmod_TagType     :: FModTagtype
-  , fmod_TagdataType :: FModTagDatatType
+    fmod_TagType     :: FModTagType
+  , fmod_TagdataType :: FModTagDataType
   , fmod_TagName     :: CString
   , fmod_TagData     :: Ptr ()
   , fmod_TagDataLen  :: CUInt
@@ -572,16 +561,15 @@ data FModTag = FModTag {
 
 
 -- FMOD_CDTOC
--- FIXME: fmod_CDTOC{Min,Max,Frame} are, in C, int[100]
 data FModCDTOC = FModCDTOC {
     fmod_CDTOCNumTracks :: CInt
   , fmod_CDTOCMin       :: Ptr CInt
   , fmod_CDTOCMax       :: Ptr CInt
-  , fmod_CDTOCFrame     :: Ptr CInt
+  , fmod_CDTOCFrame     :: Ptr CInt
   } deriving (Eq,Show)
 
 -- FMOD_TIMEUNIT
-newtype FModTimeUnit = FModTimeUnit CUint deriving (Eq,Show)
+newtype FModTimeUnit = FModTimeUnit CUInt deriving (Eq,Show)
 #{enum FModTimeUnit, FModTimeUnit
  , fmod_TIMEUNIT_MS                = FMOD_TIMEUNIT_MS
  , fmod_TIMEUNIT_PCM               = FMOD_TIMEUNIT_PCM
@@ -600,7 +588,7 @@ newtype FModTimeUnit = FModTimeUnit CUint deriving (Eq,Show)
 
 -- FMOD_SPEAKERMAPTYPE
 newtype FModSpeakerMapType = FModSpeakerMapType CInt deriving (Eq,Show)
-#{enum FModSpeakerMapType, FModSpeakerMaptype
+#{enum FModSpeakerMapType, FModSpeakerMapType
  , fmod_SPEAKERMAPTYPE_DEFAULT     = FMOD_SPEAKERMAPTYPE_DEFAULT
  , fmod_SPEAKERMAPTYPE_ALLMONO     = FMOD_SPEAKERMAPTYPE_ALLMONO
  , fmod_SPEAKERMAPTYPE_ALLSTEREO   = FMOD_SPEAKERMAPTYPE_ALLSTEREO
@@ -636,7 +624,7 @@ data FModCreateSoundExInfo = FModCreateSoundExInfo {
   , fmod_CreateSoundExInfoUserAsyncCancel     :: FModFileAsyncCancelCallback
   , fmod_CreateSoundExInfoSpeakerMap          :: FModSpeakerMapType
   , fmod_CreateSoundExInfoInitialSoundGroup   :: Ptr FModSoundGroup
-  , fmod_CreateSoundExInfoInitialSeekPosition :: CUint
+  , fmod_CreateSoundExInfoInitialSeekPosition :: CUInt
   , fmod_CreateSoundExInfoInitialSeekPosType  :: FModTimeUnit
   , fmod_CreateSoundExInfoIgnoreSetFileSystem :: CInt
   , fmod_CreateSoundExInfoCDDAForceASPI       :: CInt
@@ -655,7 +643,7 @@ data FModReverbProperties = FModReverbProperties {
   , fmod_ReverPropertiesRoomLF          :: CInt
   , fmod_ReverPropertiesDecayTime       :: CFloat
   , fmod_ReverPropertiesDecayHFRatio    :: CFloat
-  , fmod_ReverPropertiesDecayLFRatio    :: CFLoat
+  , fmod_ReverPropertiesDecayLFRatio    :: CFloat
   , fmod_ReverPropertiesReflections     :: CInt
   , fmod_ReverPropertiesReverb          :: CInt
   , fmod_ReverPropertiesReverbDelay     :: CFloat

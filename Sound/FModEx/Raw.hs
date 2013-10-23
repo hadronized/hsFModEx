@@ -20,5 +20,5 @@ import Sound.FModEx.Raw.Core as X
 import Sound.FModEx.Raw.DSP as X
 import Sound.FModEx.Raw.Errors as X
 import Sound.FModEx.Raw.Linux as X
-import Sound.FModEx.Raw.MemoryInfo as X
+import Sound.FModEx.Raw.Memory as X
 import Sound.FModEx.Raw.Output as X

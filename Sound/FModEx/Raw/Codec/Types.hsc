@@ -15,6 +15,7 @@ FModEx API C codec types raw Haskell binding.
 
 module Sound.FModEx.Raw.Codec.Types where
 
+import Foreign.C.String
 import Foreign.C.Types
 import Foreign.Ptr
 import Sound.FModEx.Raw.Core.Types
@@ -24,7 +25,7 @@ type FModCodecOpenCallback        = FunPtr (Ptr FModCodecState -> FModMode -> Pt
 type FModCodecCloseCallback       = FunPtr (Ptr FModCodecState -> IO FModResult)
 type FModCodecReadCallback        = FunPtr (Ptr FModCodecState -> Ptr () -> CUInt -> Ptr CUInt -> IO FModResult)
 type FModCodecGetLengthCallback   = FunPtr (Ptr FModCodecState -> Ptr CUInt -> FModTimeUnit -> IO FModResult)
-type FModCodecSetPositionCallback = FunPtr (Ptr FModCodecState -> CInt -> CIUnt -> FModTimeUnit -> IO FModResult)
+type FModCodecSetPositionCallback = FunPtr (Ptr FModCodecState -> CInt -> CUInt -> FModTimeUnit -> IO FModResult)
 type FModCodecGetPositionCallback = FunPtr (Ptr FModCodecState -> Ptr CUInt -> FModTimeUnit -> IO FModResult)
 type FModCodecSoundCreateCallback = FunPtr (Ptr FModCodecState -> CInt -> Ptr FModSound -> IO FModResult)
 type FModCodecMetaDataCallback    = FunPtr (Ptr FModCodecState -> FModTagType -> CString -> Ptr () -> CUInt -> FModTagDataType -> CInt -> IO FModResult)
@@ -37,7 +38,7 @@ data FModCodecDescription = FModCodecDescription {
   , fmod_CodecDescriptionDefaultAsStream :: CInt
   , fmod_CodecDescriptionTimeUnits       :: FModTimeUnit
   , fmod_CodecDescriptionOpen            :: FModCodecOpenCallback
-  , fmod_CodecDescriptionClose           :: FModCodecCLoseCallback
+  , fmod_CodecDescriptionClose           :: FModCodecCloseCallback
   , fmod_CodecDescriptionRead            :: FModCodecReadCallback
   , fmod_CodecDescriptionGetLength       :: FModCodecGetLengthCallback
   , fmod_CodecDescriptionSetPosition     :: FModCodecSetPositionCallback
@@ -65,7 +66,6 @@ data FModCodecWaveFormat = FModCodecWaveFormat {
 data FModCodecState = FModCodecState {
     fmod_CodecStateNumSubSounds :: CInt
   , fmod_CodecStateWaveFormat   :: Ptr FModCodecWaveFormat
-  , fmod_CodecStatePluginData   :: Ptr FModCodecWaveFormat
   , fmod_CodecStatePluginData   :: Ptr ()
   , fmod_CodecStateFileHandle   :: Ptr ()
   , fmod_CodecStateFileSize     :: CUInt

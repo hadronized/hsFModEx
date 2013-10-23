@@ -15,8 +15,7 @@ FModEx API C linux types raw Haskell binding.
 
 module Sound.FModEx.Raw.Linux.Types where
 
-import Foreign.C.Types
-import Foreign.Ptr
+import Foreign.C.String
 
 -- FMOD_LINUX_EXTRADRIVERDATA
 data FModLinuxExtraDriverData = FModLinuxExtraDriverData {

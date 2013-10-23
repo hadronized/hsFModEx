@@ -15,6 +15,7 @@ FModEx API C errors functions raw Haskell binding.
 
 module Sound.FModEx.Raw.Errors.Functions where
 
+import Foreign.C.String
 import Foreign.C.Types
 import Sound.FModEx.Raw.Core.Types
 

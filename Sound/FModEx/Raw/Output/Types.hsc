@@ -15,6 +15,7 @@ FModEx API C output types raw Haskell binding.
 
 module Sound.FModEx.Raw.Output.Types where
 
+import Foreign.C.String
 import Foreign.C.Types
 import Foreign.Ptr
 import Sound.FModEx.Raw.Core.Types
@@ -26,7 +27,7 @@ type FModOutputGetDriverCapsCallback = FunPtr (Ptr FModOutputState -> CInt -> Pt
 type FModOutputInitCallback          = FunPtr (Ptr FModOutputState -> CInt -> FModInitFlags -> Ptr CInt -> CInt -> Ptr FModSoundFormat -> CInt -> CInt -> Ptr () -> IO FModResult)
 type FModOutputCloseCallback         = FunPtr (Ptr FModOutputState -> IO FModResult)
 type FModOutputUpdateCallback        = FunPtr (Ptr FModOutputState -> IO FModResult)
-type FModOutputGetHandleCallback     = FunPtr (Ptr FModOutputState -> Ptr (Ptr ())) -> IO FModResult)
+type FModOutputGetHandleCallback     = FunPtr (Ptr FModOutputState -> Ptr (Ptr ()) -> IO FModResult)
 type FModOutputGetPositionCallback   = FunPtr (Ptr FModOutputState -> Ptr CUInt -> IO FModResult)
 type FModOutputLockCallback          = FunPtr (Ptr FModOutputState -> CUInt -> CUInt -> Ptr (Ptr ()) -> Ptr (Ptr ()) -> Ptr CUInt -> Ptr CUInt -> IO FModResult)
 type FModOutputUnlockCallback        = FunPtr (Ptr FModOutputState -> Ptr () -> Ptr () -> CUInt -> CUInt -> IO FModResult)
@@ -37,7 +38,7 @@ data FModOutputDescription = FModOutputDescription {
     fmod_OutputDescriptionName :: CString
   , fmod_OutputDescriptionVersion :: CUInt
   , fmod_OutputDescriptionPolling :: CInt
-  , fmod_OutputDescriptionGetNumDrivers :: FModOutputGetNumDRiversCallback
+  , fmod_OutputDescriptionGetNumDrivers :: FModOutputGetNumDriversCallback
   , fmod_OutputDescriptionGetDriverName :: FModOutputGetDriverNameCallback
   , fmod_OutputDescriptionGetDRiverCaps :: FModOutputGetDriverCapsCallback
   , fmod_OutputDescriptionInit          :: FModOutputInitCallback

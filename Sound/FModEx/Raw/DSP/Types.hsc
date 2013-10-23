@@ -15,9 +15,14 @@ FModEx API C DSP types raw Haskell binding.
 
 module Sound.FModEx.Raw.DSP.Types where
 
+
+import Foreign.C.String
 import Foreign.C.Types
 import Foreign.Ptr
 import Sound.FModEx.Raw.Core.Types
+
+#include <fmodex/fmod.h>
+#include <fmodex/fmod_dsp.h>
 
 -- DSP callbacks
 type FModDSPCreateCallback      = FunPtr (Ptr FModDSPState -> IO FModResult)
@@ -61,8 +66,8 @@ newtype FModDSPType = FModDSPType CInt deriving (Eq,Show)
  
 -- FMOD_DSP_PARAMETERDESC
 data FModDSPParameterDesc = FModDSPParameterDesc {
-    fmod_DSPParameterDescMin :: CFloat
-  , fmod_DSPParameterDescMax :: CFloat
+    fmod_DSPParameterDescMin          :: CFloat
+  , fmod_DSPParameterDescMax          :: CFloat
   , fmod_DSPParameterDescDefaultValue :: CFloat
   , fmod_DSPParameterDescName         :: CString
   , fmod_DSPParameterDescLabel        :: CString
@@ -72,7 +77,7 @@ data FModDSPParameterDesc = FModDSPParameterDesc {
 -- FMOD_DSP_DESCRIPTION
 data FModDSPDescription = FModDSPDescription {
     fmod_DSPDescriptionName          :: CString
-  , fmod_DSPDescriptionVersion       :: CIUnt
+  , fmod_DSPDescriptionVersion       :: CUInt
   , fmod_DSPDescriptionChannels      :: CInt
   , fmod_DSPDescriptionCreate        :: FModDSPCreateCallback
   , fmod_DSPDescriptionRelease       :: FModDSPReleaseCallback
@@ -80,7 +85,7 @@ data FModDSPDescription = FModDSPDescription {
   , fmod_DSPDescriptionRead          :: FModDSPReadCallback
   , fmod_DSPDescriptionSetPosition   :: FModDSPSetPositionCallback
   , fmod_DSPDescriptionNumParameters :: CInt
-  , fmod_DSPDescriptionParamDesc     :: Ptr FModDSPParamaterDesc
+  , fmod_DSPDescriptionParamDesc     :: Ptr FModDSPParameterDesc
   , fmod_DSPDescriptionSetParameter  :: FModDSPSetParamCallback
   , fmod_DSPDescriptionGetParameter  :: FModDSPGetParamCallback
   , fmod_DSPDescriptionConfig        :: FModDSPDialogCallback
@@ -181,7 +186,7 @@ newtype FModDSPTremolo = FModDSPTremolo CInt deriving (Eq,Show)
 -- FMOD_DSP_DISTORTION_LEVEL
 newtype FModDSPDistortionLevel = FModDSPDistortionLevel CInt deriving (Eq,Show)
 #{enum FModDSPDistortionLevel, FModDSPDistortionLevel
- , fmod_DSP_DISTORTION_LEVEL
+ , fmod_DSP_DISTORTION_LEVEL = FMOD_DSP_DISTORTION_LEVEL
  }
 
 -- FMOD_DSP_NORMALIZE
@@ -195,7 +200,7 @@ newtype FModDSPNormalize = FModDSPNormalize CInt deriving (Eq,Show)
 
 -- FMOD_DSP_PARAMEQ
 newtype FModDSPParamEq = FModDSPParamEq CInt deriving (Eq,Show)
-#{enum FModDSPParamEq, FModsDSPParamEq
+#{enum FModDSPParamEq, FModDSPParamEq
  , fmod_DSP_PARAMEQ_CENTER    = FMOD_DSP_PARAMEQ_CENTER
  , fmod_DSP_PARAMEQ_BANDWIDTH = FMOD_DSP_PARAMEQ_BANDWIDTH
  , fmod_DSP_PARAMEQ_GAIN      = FMOD_DSP_PARAMEQ_GAIN
@@ -204,7 +209,7 @@ newtype FModDSPParamEq = FModDSPParamEq CInt deriving (Eq,Show)
 -- FMOD_DSP_PITCHSHIFT
 newtype FModDSPPitchShift = FModDSPPitchShift CInt deriving (Eq,Show)
 #{enum FModDSPPitchShift, FModDSPPitchShift
- , fmod_DSP_PITCHSHIFT_PITCH       = FMOD_DSP_PITCHSHIFT_SHIFT
+ , fmod_DSP_PITCHSHIFT_PITCH       = FMOD_DSP_PITCHSHIFT_PITCH
  , fmod_DSP_PITCHSHIFT_FFTSIZE     = FMOD_DSP_PITCHSHIFT_FFTSIZE
  , fmod_DSP_PITCHSHIFT_OVERLAP     = FMOD_DSP_PITCHSHIFT_OVERLAP
  , fmod_DSP_PITCHSHIFT_MAXCHANNELS = FMOD_DSP_PITCHSHIFT_MAXCHANNELS
@@ -236,7 +241,7 @@ newtype FModDSPITEcho = FModDSPITEcho CInt deriving (Eq,Show)
 newtype FModDSPCompressor = FModDSPCompressor CInt deriving (Eq,Show)
 #{enum FModDSPCompressor, FModDSPCompressor
  , fmod_DSP_COMPRESSOR_THRESHOLD  = FMOD_DSP_COMPRESSOR_THRESHOLD
- , fmod_DSP_COMPRESSOR_ATTACK     = FMOD_DPS_COMPRESSOR_ATTACK
+ , fmod_DSP_COMPRESSOR_ATTACK     = FMOD_DSP_COMPRESSOR_ATTACK
  , fmod_DSP_COMPRESSOR_RELEASE    = FMOD_DSP_COMPRESSOR_RELEASE
  , fmod_DSP_COMPRESSOR_GAINMAKEUP = FMOD_DSP_COMPRESSOR_GAINMAKEUP
  }
@@ -247,7 +252,7 @@ newtype FModDSPSFXReverb = FModDSPSFXReverb CInt deriving (Eq,Show)
  , fmod_DSP_SFXREVERB_DRYLEVEL         = FMOD_DSP_SFXREVERB_DRYLEVEL
  , fmod_DSP_SFXREVERB_ROOM             = FMOD_DSP_SFXREVERB_ROOM
  , fmod_DSP_SFXREVERB_ROOMHF           = FMOD_DSP_SFXREVERB_ROOMHF
- , fmod_DSP_SFXREVERB_DECAYTIME        = FMOD_DSP_SFXREVER_DECAYTIME
+ , fmod_DSP_SFXREVERB_DECAYTIME        = FMOD_DSP_SFXREVERB_DECAYTIME
  , fmod_DSP_SFXREVERB_DECAYHFRATIO     = FMOD_DSP_SFXREVERB_DECAYHFRATIO
  , fmod_DSP_SFXREVERB_REFLECTIONSLEVEL = FMOD_DSP_SFXREVERB_REFLECTIONSLEVEL
  , fmod_DSP_SFXREVERB_REFLECTIONSDELAY = FMOD_DSP_SFXREVERB_REFLECTIONSDELAY
