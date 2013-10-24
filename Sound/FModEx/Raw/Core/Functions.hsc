@@ -115,14 +115,18 @@ FMOD_RESULT F_API FMOD_System_GetWaveData            (FMOD_SYSTEM *system, float
 */
 
 FMOD_RESULT F_API FMOD_System_CreateSound            (FMOD_SYSTEM *system, const char *name_or_data, FMOD_MODE mode, FMOD_CREATESOUNDEXINFO *exinfo, FMOD_SOUND **sound);
-FMOD_RESULT F_API FMOD_System_CreateStream           (FMOD_SYSTEM *system, const char *name_or_data, FMOD_MODE mode, FMOD_CREATESOUNDEXINFO *exinfo, FMOD_SOUND **sound);
+#endif
+foreign import ccall "FMOD_System_CreateStream"            fmod_SystemCreateStream            :: Ptr FModSystem -> CString -> FModMode -> Ptr FModCreateSoundExInfo -> Ptr (Ptr FModSound) -> IO FModResult
+#if 0
 FMOD_RESULT F_API FMOD_System_CreateDSP              (FMOD_SYSTEM *system, FMOD_DSP_DESCRIPTION *description, FMOD_DSP **dsp);
 FMOD_RESULT F_API FMOD_System_CreateDSPByType        (FMOD_SYSTEM *system, FMOD_DSP_TYPE type, FMOD_DSP **dsp);
 FMOD_RESULT F_API FMOD_System_CreateChannelGroup     (FMOD_SYSTEM *system, const char *name, FMOD_CHANNELGROUP **channelgroup);
 FMOD_RESULT F_API FMOD_System_CreateSoundGroup       (FMOD_SYSTEM *system, const char *name, FMOD_SOUNDGROUP **soundgroup);
 FMOD_RESULT F_API FMOD_System_CreateReverb           (FMOD_SYSTEM *system, FMOD_REVERB **reverb);
 
-FMOD_RESULT F_API FMOD_System_PlaySound              (FMOD_SYSTEM *system, FMOD_CHANNELINDEX channelid, FMOD_SOUND *sound, FMOD_BOOL paused, FMOD_CHANNEL **channel);
+#endif
+foreign import ccall "FMOD_System_PlaySound"               fmod_SystemPlaySound               :: Ptr FModSystem -> FModChannelIndex -> Ptr FModSound -> FModBool -> Ptr (Ptr FModChannel) -> IO FModResult
+#if 0
 FMOD_RESULT F_API FMOD_System_PlayDSP                (FMOD_SYSTEM *system, FMOD_CHANNELINDEX channelid, FMOD_DSP *dsp, FMOD_BOOL paused, FMOD_CHANNEL **channel);
 FMOD_RESULT F_API FMOD_System_GetChannel             (FMOD_SYSTEM *system, int channelid, FMOD_CHANNEL **channel);
 FMOD_RESULT F_API FMOD_System_GetMasterChannelGroup  (FMOD_SYSTEM *system, FMOD_CHANNELGROUP **channelgroup);
@@ -193,7 +197,9 @@ FMOD_RESULT F_API FMOD_System_GetMemoryInfo          (FMOD_SYSTEM *system, unsig
     'Sound' API
 */
 
-FMOD_RESULT F_API FMOD_Sound_Release                 (FMOD_SOUND *sound);
+#endif
+foreign import ccall "FMOD_Sound_Release"                  fmod_SoundRelease                  :: Ptr FModSound -> IO FModResult
+#if 0
 FMOD_RESULT F_API FMOD_Sound_GetSystemObject         (FMOD_SOUND *sound, FMOD_SYSTEM **system);
 
 /*
@@ -216,7 +222,9 @@ FMOD_RESULT F_API FMOD_Sound_SetSubSound             (FMOD_SOUND *sound, int ind
 FMOD_RESULT F_API FMOD_Sound_GetSubSound             (FMOD_SOUND *sound, int index, FMOD_SOUND **subsound);
 FMOD_RESULT F_API FMOD_Sound_SetSubSoundSentence     (FMOD_SOUND *sound, int *subsoundlist, int numsubsounds);
 FMOD_RESULT F_API FMOD_Sound_GetName                 (FMOD_SOUND *sound, char *name, int namelen);
-FMOD_RESULT F_API FMOD_Sound_GetLength               (FMOD_SOUND *sound, unsigned int *length, FMOD_TIMEUNIT lengthtype);
+#endif
+foreign import ccall "FMOD_Sound_GetLength"                fmod_SoundGetLength                :: Ptr FModSound -> Ptr CUInt -> FModTimeUnit -> IO FModResult
+#if 0
 FMOD_RESULT F_API FMOD_Sound_GetFormat               (FMOD_SOUND *sound, FMOD_SOUND_TYPE *type, FMOD_SOUND_FORMAT *format, int *channels, int *bits);
 FMOD_RESULT F_API FMOD_Sound_GetNumSubSounds         (FMOD_SOUND *sound, int *numsubsounds);
 FMOD_RESULT F_API FMOD_Sound_GetNumTags              (FMOD_SOUND *sound, int *numtags, int *numtagsupdated);
@@ -275,8 +283,10 @@ FMOD_RESULT F_API FMOD_Sound_GetMemoryInfo           (FMOD_SOUND *sound, unsigne
 FMOD_RESULT F_API FMOD_Channel_GetSystemObject       (FMOD_CHANNEL *channel, FMOD_SYSTEM **system);
 
 FMOD_RESULT F_API FMOD_Channel_Stop                  (FMOD_CHANNEL *channel);
-FMOD_RESULT F_API FMOD_Channel_SetPaused             (FMOD_CHANNEL *channel, FMOD_BOOL paused);
-FMOD_RESULT F_API FMOD_Channel_GetPaused             (FMOD_CHANNEL *channel, FMOD_BOOL *paused);
+#endif
+foreign import ccall "FMOD_Channel_SetPaused"              fmod_ChannelSetPaused              :: Ptr FModChannel -> FModBool -> IO FModResult
+foreign import ccall "FMOD_Channel_GetPaused"              fmod_ChannelGetPaused              :: Ptr FModChannel -> Ptr FModBool -> IO FModResult
+#if 0
 FMOD_RESULT F_API FMOD_Channel_SetVolume             (FMOD_CHANNEL *channel, float volume);
 FMOD_RESULT F_API FMOD_Channel_GetVolume             (FMOD_CHANNEL *channel, float *volume);
 FMOD_RESULT F_API FMOD_Channel_SetFrequency          (FMOD_CHANNEL *channel, float frequency);
@@ -295,8 +305,10 @@ FMOD_RESULT F_API FMOD_Channel_SetMute               (FMOD_CHANNEL *channel, FMO
 FMOD_RESULT F_API FMOD_Channel_GetMute               (FMOD_CHANNEL *channel, FMOD_BOOL *mute);
 FMOD_RESULT F_API FMOD_Channel_SetPriority           (FMOD_CHANNEL *channel, int priority);
 FMOD_RESULT F_API FMOD_Channel_GetPriority           (FMOD_CHANNEL *channel, int *priority);
-FMOD_RESULT F_API FMOD_Channel_SetPosition           (FMOD_CHANNEL *channel, unsigned int position, FMOD_TIMEUNIT postype);
-FMOD_RESULT F_API FMOD_Channel_GetPosition           (FMOD_CHANNEL *channel, unsigned int *position, FMOD_TIMEUNIT postype);
+#endif
+foreign import ccall "FMOD_Channel_SetPosition"            fmod_ChannelSetPosition            :: Ptr FModChannel -> CUInt -> FModTimeUnit -> IO FModResult
+foreign import ccall "FMOD_Channel_GetPosition"            fmod_ChannelGetPosition            :: Ptr FModChannel -> Ptr CUInt -> FModTimeUnit -> IO FModResult
+#if 0
 FMOD_RESULT F_API FMOD_Channel_SetReverbProperties   (FMOD_CHANNEL *channel, const FMOD_REVERB_CHANNELPROPERTIES *prop);
 FMOD_RESULT F_API FMOD_Channel_GetReverbProperties   (FMOD_CHANNEL *channel, FMOD_REVERB_CHANNELPROPERTIES *prop);
 FMOD_RESULT F_API FMOD_Channel_SetLowPassGain        (FMOD_CHANNEL *channel, float gain);
