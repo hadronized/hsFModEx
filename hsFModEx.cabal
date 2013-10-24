@@ -2,7 +2,7 @@
 -- documentation, see http://haskell.org/cabal/users-guide/
 
 -- The name of the package.
-name:                hsFModEx
+name:                FModExRaw
 
 -- The package version.  See the Haskell package versioning policy (PVP) 
 -- for standards guiding when and how versions should be incremented.
@@ -13,12 +13,10 @@ name:                hsFModEx
 version:             0.0.0.0
 
 -- A short (one-line) description of the package.
-synopsis:            The Haskell FModEx API.
+synopsis:            The Haskell FModEx raw API.
 
 -- A longer description of the package.
-description:         Haskell FModEx API. For now, it’s very minimalistic binding used for – mainly – play a single streamed
-                     music, pause it and move playing cursor. At some point it will end up in a complete, portable and type-safe
-                     Haskell binding.
+description:         Haskell FModEx raw API. It’s a 1:1 Haskell binding over the famous C API.
 
                      For now, I use version 0.0.* for uncomplete API binding. The complete API will be released just in time.
 
@@ -55,9 +53,22 @@ library
   -- Extra libraries
   extra-libraries:   fmodex
   -- Modules exported by the library.
-  exposed-modules:     Sound.FModEx
-                     , Sound.FModEx.Functions
-                     , Sound.FModEx.Types
+  exposed-modules:     Sound.FModEx.Raw
+                     , Sound.FModEx.Raw.Codec
+                     , Sound.FModEx.Raw.Codec.Types
+                     , Sound.FModEx.Raw.Core
+                     , Sound.FModEx.Raw.Core.Functions
+                     , Sound.FModEx.Raw.Core.Types
+                     , Sound.FModEx.Raw.DSP
+                     , Sound.FModEx.Raw.DSP.Types
+                     , Sound.FModEx.Raw.Errors
+                     , Sound.FModEx.Raw.Errors.Functions
+                     , Sound.FModEx.Raw.Linux
+                     , Sound.FModEx.Raw.Linux.Types
+                     , Sound.FModEx.Raw.Memory
+                     , Sound.FModEx.Raw.Memory.Types
+                     , Sound.FModEx.Raw.Output
+                     , Sound.FModEx.Raw.Output.Types
   
   -- Modules included in this library but not exported.
   -- other-modules:       
