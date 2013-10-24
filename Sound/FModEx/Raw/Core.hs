@@ -15,4 +15,5 @@ module Sound.FModEx.Raw.Core (
     module X
   ) where
 
+import Sound.FModEx.Raw.Core.Functions as X
 import Sound.FModEx.Raw.Core.Types as X
