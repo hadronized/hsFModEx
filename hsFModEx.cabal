@@ -46,15 +46,6 @@ build-type:          Simple
 -- Constraint on the version of Cabal needed to build this package.
 cabal-version:       >=1.8
 
-source-repository head
-type:     git
-location: https://github.com/skypers/hsFModEx
-
-source-repository this
-type:     git
-location: https://github.com/skypers/hsFModEx
-tag:      0.1
-
 library
   -- Compilation line
   ghc-options:       -Wall
