@@ -18,7 +18,9 @@ module Sound.FModEx.Raw.Core.Functions where
 import Foreign.C.String
 import Foreign.C.Types
 import Foreign.Ptr
+import Sound.FModEx.Raw.Codec.Types
 import Sound.FModEx.Raw.Core.Types
+import Sound.FModEx.Raw.DSP.Types
 import Sound.FModEx.Raw.Memory.Types
 
 -- macro, TODO
@@ -26,81 +28,73 @@ import Sound.FModEx.Raw.Memory.Types
 -- // #define FMOD_64BIT_SUB(_hi1, _lo1, _hi2, _lo2) _hi1 -= ((_hi2) + ((((_lo1) - (_lo2)) > (_lo1)) ? 1 : 0)); (_lo1) -= (_lo2);
 
 -- FMOD global system functions
-foreign import ccall "FMOD_Memory_Initialize"          fmod_MemoryInitialize          :: Ptr () -> CInt -> FModMemoryAllocCallback -> FModMemoryReallocCallback -> FModMemoryFreeCallback -> FModMemoryType -> IO FModResult
-foreign import ccall "FMOD_Memory_GetStats"            fmod_MemoryGetStats            :: Ptr CInt -> Ptr CInt -> FModBool -> IO FModResult
-foreign import ccall "FMOD_Debug_SetLevel"             fmod_DebugSetLevel             :: FModDebugLevel -> IO FModResult
-foreign import ccall "FMOD_Debug_GetLevel"             fmod_DebugGetLevel             :: Ptr FModDebugLevel -> IO FModResult
-foreign import ccall "FMOD_File_SetDiskBusy"           fmod_FileSetDiskBusy           :: CInt -> IO FModResult
-foreign import ccall "FMOD_File_GetDiskBusy"           fmod_FileGetDiskBusy           :: Ptr Int -> IO FModResult
+foreign import ccall "FMOD_Memory_Initialize"              fmod_MemoryInitialize              :: Ptr () -> CInt -> FModMemoryAllocCallback -> FModMemoryReallocCallback -> FModMemoryFreeCallback -> FModMemoryType -> IO FModResult
+foreign import ccall "FMOD_Memory_GetStats"                fmod_MemoryGetStats                :: Ptr CInt -> Ptr CInt -> FModBool -> IO FModResult
+foreign import ccall "FMOD_Debug_SetLevel"                 fmod_DebugSetLevel                 :: FModDebugLevel -> IO FModResult
+foreign import ccall "FMOD_Debug_GetLevel"                 fmod_DebugGetLevel                 :: Ptr FModDebugLevel -> IO FModResult
+foreign import ccall "FMOD_File_SetDiskBusy"               fmod_FileSetDiskBusy               :: CInt -> IO FModResult
+foreign import ccall "FMOD_File_GetDiskBusy"               fmod_FileGetDiskBusy               :: Ptr Int -> IO FModResult
 
 -- FMOD System factory functions.
-foreign import ccall "FMOD_System_Create"              fmod_SystemCreate              :: Ptr (Ptr FModSystem) -> IO FModResult
-foreign import ccall "FMOD_System_Release"             fmod_SystemRelease             :: Ptr FModSystem -> IO FModResult
+foreign import ccall "FMOD_System_Create"                  fmod_SystemCreate                  :: Ptr (Ptr FModSystem) -> IO FModResult
+foreign import ccall "FMOD_System_Release"                 fmod_SystemRelease                 :: Ptr FModSystem -> IO FModResult
 
 -- System API
-foreign import ccall "FMOD_System_SetOutput"           fmod_SystemSetOutput           :: Ptr FModSystem -> FModOutputType -> IO FModResult
-foreign import ccall "FMOD_System_GetOutput"           fmod_SystemGetOutput           :: Ptr FModSystem -> Ptr FModOutputTypeOutput -> IO FModResult
-foreign import ccall "FMOD_System_GetNumDrivers"       fmod_SystemGetNumDrivers       :: Ptr FModSystem -> Ptr CInt -> IO FModResult
-foreign import ccall "FMOD_System_GetDriverInfo"       fmod_SystemGetDriverInfo       :: Ptr FModSystem -> CInt -> CString -> CInt -> Ptr FModGUID -> IO FModResult
-foreign import ccall "FMOD_System_GetDriverInfoW"      fmod_SystemGetDriverInfoW      :: Ptr FModSystem -> CInt -> CString -> CInt -> Ptr FModGUID -> IO FModResult
-foreign import ccall "FMOD_System_GetDriverCaps"       fmod_SystemGetDriverCaps       :: Ptr FModSystem -> CInt -> Ptr FModCaps -> Ptr CInt -> Ptr FModSpeakerMode -> IO FModResult
-foreign import ccall "FMOD_System_SetDriver"           fmod_SystemSetDriver           :: Ptr FModSystem -> CInt -> IO FModResult
-foreign import ccall "FMOD_System_GetDriver"           fmod_SystemGetDriver           :: Ptr FModSystem -> Ptr CInt -> IO FModResult
-foreign import ccall "FMOD_System_SetHardwareChannels" fmod_SystemSetHardwareChannels :: Ptr FModSystem -> CInt -> IO FModResult
-foreign import ccall "FMOD_System_SetSoftwareChannels" fmod_SystemSetSoftwareChannels :: Ptr FModSystem -> CInt -> IO FModResult
-foreign import ccall "FMOD_System_GetSoftwareChannels" fmod_SystemGetSoftwareChannels :: Ptr FModSystem -> CInt -> IO FModResult
-foreign import ccall "FMOD_System_SetSoftwareFormat"   fmod_SystemSetSoftwareFormat   :: Ptr FModSystem -> CInt -> FModSoundFormat -> CInt -> CInt -> FModDSPResambler -> IO FModResult
-foreign import ccall "FMOD_System_GetSoftwareFormat"   fmod_SystemGetSoftwareFormat   :: Ptr FModSystem -> Ptr CInt -> Ptr FModSoundFormat -> Ptr CInt -> Ptr CInt -> Ptr FModDSPResampler -> Ptr CInt -> IO FModResult
-foreign import ccall "FMOD_System_SetDSPBufferSize"    fmod_SystemSetDSPBufferSize    :: Ptr FModSystem -> CUInt -> CInt -> IO FModResult
-foreign import ccall "FMOD_System_GetDSPBufferSize"    fmod_SystemGetDSPBufferSize    :: Ptr FModSystem -> Ptr CUInt -> Ptr CInt -> IO FModResult
-foreign import ccall "FMOD_System_SetFileSystem"       fmod_SystemSetFileSystem       :: Ptr FModSystem -> FModFileOpenCallback -> FModFileCloseCallback -> FModFileReadCallback -> FModFileSeekCallback -> FModFileAsyncReadCallback -> FModFileAsyncCancelCallback -> CInt -> IO FModResult
-foreign import ccall "FMOD_System_AttachFileSystem"    fmod_SystemAttachFileSystem    :: Ptr FModSystem -> FModFileOpenCallback -> FModFileCloseCallback -> FModFileReadCallback -> FModFileSeekCallback -> IO FModResult
-foreign import ccall "FMOD_System_SetAdvancedSettings" fmod_SystemSetAdvancedSettings :: Ptr FModSystem -> Ptr FModAdvancedSettings -> IO FModResult
-foreign import ccall "FMOD_System_GetAdvancedSettings" fmod_SystemGetAdvancedSettings :: Ptr FModSystem -> Ptr FModAdvancedSettings -> IO FModResult
-foreign import ccall "FMOD_System_SetSpeakerMode"      fmod_SystemSetSpeakerMode      :: Ptr FModSystem -> FModSpeakerMode -> IO FModResult
-foreign import ccall "FMOD_Syste_GetSpeakerMode"       fmod_SystemGetSpeakerMode      :: Ptr FModSystem -> Ptr FModSpeakerMode -> IO FModResult
-foreign import ccall "FMOD_System_SetCallback"         fmod_SystemSetCallbcak         :: Ptr FModSystem -> FModSystemCallback -> IO FModResult
+foreign import ccall "FMOD_System_SetOutput"               fmod_SystemSetOutput               :: Ptr FModSystem -> FModOutputType -> IO FModResult
+foreign import ccall "FMOD_System_GetOutput"               fmod_SystemGetOutput               :: Ptr FModSystem -> Ptr FModOutputType -> IO FModResult
+foreign import ccall "FMOD_System_GetNumDrivers"           fmod_SystemGetNumDrivers           :: Ptr FModSystem -> Ptr CInt -> IO FModResult
+foreign import ccall "FMOD_System_GetDriverInfo"           fmod_SystemGetDriverInfo           :: Ptr FModSystem -> CInt -> CString -> CInt -> Ptr FModGUID -> IO FModResult
+foreign import ccall "FMOD_System_GetDriverInfoW"          fmod_SystemGetDriverInfoW          :: Ptr FModSystem -> CInt -> CString -> CInt -> Ptr FModGUID -> IO FModResult
+foreign import ccall "FMOD_System_GetDriverCaps"           fmod_SystemGetDriverCaps           :: Ptr FModSystem -> CInt -> Ptr FModCaps -> Ptr CInt -> Ptr FModSpeakerMode -> IO FModResult
+foreign import ccall "FMOD_System_SetDriver"               fmod_SystemSetDriver               :: Ptr FModSystem -> CInt -> IO FModResult
+foreign import ccall "FMOD_System_GetDriver"               fmod_SystemGetDriver               :: Ptr FModSystem -> Ptr CInt -> IO FModResult
+foreign import ccall "FMOD_System_SetHardwareChannels"     fmod_SystemSetHardwareChannels     :: Ptr FModSystem -> CInt -> IO FModResult
+foreign import ccall "FMOD_System_SetSoftwareChannels"     fmod_SystemSetSoftwareChannels     :: Ptr FModSystem -> CInt -> IO FModResult
+foreign import ccall "FMOD_System_GetSoftwareChannels"     fmod_SystemGetSoftwareChannels     :: Ptr FModSystem -> CInt -> IO FModResult
+foreign import ccall "FMOD_System_SetSoftwareFormat"       fmod_SystemSetSoftwareFormat       :: Ptr FModSystem -> CInt -> FModSoundFormat -> CInt -> CInt -> FModDSPResampler -> IO FModResult
+foreign import ccall "FMOD_System_GetSoftwareFormat"       fmod_SystemGetSoftwareFormat       :: Ptr FModSystem -> Ptr CInt -> Ptr FModSoundFormat -> Ptr CInt -> Ptr CInt -> Ptr FModDSPResampler -> Ptr CInt -> IO FModResult
+foreign import ccall "FMOD_System_SetDSPBufferSize"        fmod_SystemSetDSPBufferSize        :: Ptr FModSystem -> CUInt -> CInt -> IO FModResult
+foreign import ccall "FMOD_System_GetDSPBufferSize"        fmod_SystemGetDSPBufferSize        :: Ptr FModSystem -> Ptr CUInt -> Ptr CInt -> IO FModResult
+foreign import ccall "FMOD_System_SetFileSystem"           fmod_SystemSetFileSystem           :: Ptr FModSystem -> FModFileOpenCallback -> FModFileCloseCallback -> FModFileReadCallback -> FModFileSeekCallback -> FModFileAsyncReadCallback -> FModFileAsyncCancelCallback -> CInt -> IO FModResult
+foreign import ccall "FMOD_System_AttachFileSystem"        fmod_SystemAttachFileSystem        :: Ptr FModSystem -> FModFileOpenCallback -> FModFileCloseCallback -> FModFileReadCallback -> FModFileSeekCallback -> IO FModResult
+foreign import ccall "FMOD_System_SetAdvancedSettings"     fmod_SystemSetAdvancedSettings     :: Ptr FModSystem -> Ptr FModAdvancedSettings -> IO FModResult
+foreign import ccall "FMOD_System_GetAdvancedSettings"     fmod_SystemGetAdvancedSettings     :: Ptr FModSystem -> Ptr FModAdvancedSettings -> IO FModResult
+foreign import ccall "FMOD_System_SetSpeakerMode"          fmod_SystemSetSpeakerMode          :: Ptr FModSystem -> FModSpeakerMode -> IO FModResult
+foreign import ccall "FMOD_Syste_GetSpeakerMode"           fmod_SystemGetSpeakerMode          :: Ptr FModSystem -> Ptr FModSpeakerMode -> IO FModResult
+foreign import ccall "FMOD_System_SetCallback"             fmod_SystemSetCallbcak             :: Ptr FModSystem -> FModSystemCallback -> IO FModResult
 
 -- Plugin support
-FMOD_RESULT F_API FMOD_System_SetPluginPath          (FMOD_SYSTEM *system, const char *path);
-foreign import ccall "FMOD_System_SetPluginPath"       fmod_SystemSetPluginPath       :: Ptr FModSystem -> CString -> IO FModResult
-FMOD_RESULT F_API FMOD_System_LoadPlugin             (FMOD_SYSTEM *system, const char *filename, unsigned int *handle, unsigned int priority);
-FMOD_RESULT F_API FMOD_System_UnloadPlugin           (FMOD_SYSTEM *system, unsigned int handle);
-FMOD_RESULT F_API FMOD_System_GetNumPlugins          (FMOD_SYSTEM *system, FMOD_PLUGINTYPE plugintype, int *numplugins);
-FMOD_RESULT F_API FMOD_System_GetPluginHandle        (FMOD_SYSTEM *system, FMOD_PLUGINTYPE plugintype, int index, unsigned int *handle);
-FMOD_RESULT F_API FMOD_System_GetPluginInfo          (FMOD_SYSTEM *system, unsigned int handle, FMOD_PLUGINTYPE *plugintype, char *name, int namelen, unsigned int *version);
-FMOD_RESULT F_API FMOD_System_SetOutputByPlugin      (FMOD_SYSTEM *system, unsigned int handle);
-FMOD_RESULT F_API FMOD_System_GetOutputByPlugin      (FMOD_SYSTEM *system, unsigned int *handle);
-FMOD_RESULT F_API FMOD_System_CreateDSPByPlugin      (FMOD_SYSTEM *system, unsigned int handle, FMOD_DSP **dsp);
-FMOD_RESULT F_API FMOD_System_RegisterCodec          (FMOD_SYSTEM *system, FMOD_CODEC_DESCRIPTION *description, unsigned int *handle, unsigned int priority);
-FMOD_RESULT F_API FMOD_System_RegisterDSP            (FMOD_SYSTEM *system, FMOD_DSP_DESCRIPTION *description, unsigned int *handle);
+foreign import ccall "FMOD_System_SetPluginPath"           fmod_SystemSetPluginPath           :: Ptr FModSystem -> CString -> IO FModResult
+foreign import ccall "FMOD_System_LoadPlugin"              fmod_SystemLoadPlugin              :: Ptr FModSystem -> CString -> Ptr CUInt -> CUInt -> IO FModResult
+foreign import ccall "FMOD_System_UnloadPlugin"            fmod_SystemUnloadPlugin            :: Ptr FModSystem -> CUInt -> IO FModResult
+foreign import ccall "FMOD_System_GetNumPlugins"           fmod_SystemGetNumPlugins           :: Ptr FModSystem -> FModPluginType -> Ptr CInt -> IO FModResult
+foreign import ccall "FMOD_System_GetPluginHandle"         fmod_SystemGetPluginHandle         :: Ptr FModSystem -> FModPluginType -> CInt -> Ptr CUInt -> IO FModResult
+foreign import ccall "FMOD_System_GetPluginInfo"           fmod_SystemGetPluginInfo           :: Ptr FModSystem -> CUInt -> Ptr FModPluginType -> CString -> CInt -> Ptr CUInt -> IO FModResult
+foreign import ccall "FMOD_System_SetOutputByPlugin"       fmod_SystemSetOutputByPlugin       :: Ptr FModSystem -> CUInt -> IO FModResult
+foreign import ccall "FMOD_System_GetOutputByPlugin"       fmod_SystemGetOutputByPlugin       :: Ptr FModSystem -> Ptr CUInt -> IO FModResult
+foreign import ccall "FMOD_System_CreateDSPByPlugin"       fmod_SystemCreateDSPByPlugin       :: Ptr FModSystem -> CUInt -> Ptr (Ptr FModDSP) -> IO FModResult
+foreign import ccall "FMOD_System_RegisterCodec"           fmod_SystemRegisterCodec           :: Ptr FModSystem -> Ptr FModCodecDescription -> Ptr CUInt -> CUInt -> IO FModResult
+foreign import ccall "FMOD_System_RegisterDSP"             fmod_SystemRegisterDSP             :: Ptr FModSystem -> Ptr FModDSPDescription -> Ptr CUInt -> IO FModResult
 
-/*
-     Init/Close                            
-*/
+-- Init / close
+foreign import ccall "FMOD_System_Init"                    fmod_SystemInit                    :: Ptr FModSystem -> CInt -> FModInitFlags -> Ptr () -> IO FModResult
+foreign import ccall "FMOD_System_Close"                   fmod_SystemClose                   :: Ptr FModSystem -> IO FModResult
 
-FMOD_RESULT F_API FMOD_System_Init                   (FMOD_SYSTEM *system, int maxchannels, FMOD_INITFLAGS flags, void *extradriverdata);
-FMOD_RESULT F_API FMOD_System_Close                  (FMOD_SYSTEM *system);
+-- General post-init system functions    
+foreign import ccall "FMOD_System_Update"                  fmod_SystemUpdate                  :: Ptr FModSystem -> IO FModResult
+foreign import ccall "FMOD_System_Set3DSettings"           fmod_SystemSet3DSettings           :: Ptr FModSystem -> CFloat -> CFloat -> CFloat -> IO FModResult
+foreign import ccall "FMOD_System_Get3DSettings"           fmod_SystemGet3DSettings           :: Ptr FModSystem -> Ptr CFloat -> Ptr CFloat -> Ptr CFloat -> IO FModResult
+foreign import ccall "FMOD_System_Set3DNumListeners"       fmod_SystemSet3DNumListeners       :: Ptr FModSystem -> CInt -> IO FModResult
+foreign import ccall "FMOD_System_Get3DNumListeners"       fmod_SystemGet3DNumListeners       :: Ptr FModSystem -> Ptr CInt -> IO FModResult
+foreign import ccall "FMOD_System_Set3DListenerAttributes" fmod_SystemSet3DListenerAttributes :: Ptr FModSystem -> CInt -> Ptr FModVector -> Ptr FModVector -> Ptr FModVector -> Ptr FModVector -> IO FModResult
+foreign import ccall "FMOD_System_Get3DListenerAttributes" fmod_SystemGet3DListenerAttributes :: Ptr FModSystem -> CInt -> Ptr FModVector -> Ptr FModVector -> Ptr FModVector -> Ptr FModVector -> IO FModResult
+foreign import ccall "FMOD_System_Set3DRolloffcallback"    fmod_SystemSet3DRolloffCallback    :: Ptr FModSystem -> FMod3DRollOffCallback -> IO FModResult
+foreign import ccall "FMOD_System_Set3DSpeakerPosition"    fmod_SystemSet3DSpeakerPosition    :: Ptr FModSystem -> FModSpeaker -> CFloat -> CFloat -> FModBool -> IO FModResult
+foreign import ccall "FMOD_System_Get3DSpeakerPosition"    fmod_SystemGet3DSpeakerPosition    :: Ptr FModSystem -> FModSpeaker -> Ptr CFloat -> Ptr CFloat -> Ptr FModBool -> IO FModResult
+foreign import ccall "FMOD_System_SetStreamBufferSize"     fmod_SystemSetStreamBufferSize     :: Ptr FModSystem -> CUInt -> FModTimeUnit -> IO FModResult
+foreign import ccall "FMOD_System_GetStreamBufferSize"     fmod_SystemGetStreamBufferSize     :: Ptr FModSystem -> Ptr CUInt -> Ptr FModTimeUnit -> IO FModResult
 
-/*
-     General post-init system functions    
-*/
-
-FMOD_RESULT F_API FMOD_System_Update                 (FMOD_SYSTEM *system);
-
-FMOD_RESULT F_API FMOD_System_Set3DSettings          (FMOD_SYSTEM *system, float dopplerscale, float distancefactor, float rolloffscale);
-FMOD_RESULT F_API FMOD_System_Get3DSettings          (FMOD_SYSTEM *system, float *dopplerscale, float *distancefactor, float *rolloffscale);
-FMOD_RESULT F_API FMOD_System_Set3DNumListeners      (FMOD_SYSTEM *system, int numlisteners);
-FMOD_RESULT F_API FMOD_System_Get3DNumListeners      (FMOD_SYSTEM *system, int *numlisteners);
-FMOD_RESULT F_API FMOD_System_Set3DListenerAttributes(FMOD_SYSTEM *system, int listener, const FMOD_VECTOR *pos, const FMOD_VECTOR *vel, const FMOD_VECTOR *forward, const FMOD_VECTOR *up);
-FMOD_RESULT F_API FMOD_System_Get3DListenerAttributes(FMOD_SYSTEM *system, int listener, FMOD_VECTOR *pos, FMOD_VECTOR *vel, FMOD_VECTOR *forward, FMOD_VECTOR *up);
-FMOD_RESULT F_API FMOD_System_Set3DRolloffCallback   (FMOD_SYSTEM *system, FMOD_3D_ROLLOFFCALLBACK callback);
-FMOD_RESULT F_API FMOD_System_Set3DSpeakerPosition   (FMOD_SYSTEM *system, FMOD_SPEAKER speaker, float x, float y, FMOD_BOOL active);
-FMOD_RESULT F_API FMOD_System_Get3DSpeakerPosition   (FMOD_SYSTEM *system, FMOD_SPEAKER speaker, float *x, float *y, FMOD_BOOL *active);
-
-FMOD_RESULT F_API FMOD_System_SetStreamBufferSize    (FMOD_SYSTEM *system, unsigned int filebuffersize, FMOD_TIMEUNIT filebuffersizetype);
-FMOD_RESULT F_API FMOD_System_GetStreamBufferSize    (FMOD_SYSTEM *system, unsigned int *filebuffersize, FMOD_TIMEUNIT *filebuffersizetype);
-
+#if 0
 /*
      System information functions.        
 */
@@ -632,3 +626,4 @@ FMOD_RESULT F_API FMOD_Reverb_GetUserData            (FMOD_REVERB *reverb, void 
 
 FMOD_RESULT F_API FMOD_Reverb_GetMemoryInfo          (FMOD_REVERB *reverb, unsigned int memorybits, unsigned int event_memorybits, unsigned int *memoryused, FMOD_MEMORY_USAGE_DETAILS *memoryused_details);
 
+#endif
