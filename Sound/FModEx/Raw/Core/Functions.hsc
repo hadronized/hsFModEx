@@ -60,7 +60,7 @@ foreign import ccall "FMOD_System_AttachFileSystem"        fmod_SystemAttachFile
 foreign import ccall "FMOD_System_SetAdvancedSettings"     fmod_SystemSetAdvancedSettings     :: Ptr FModSystem -> Ptr FModAdvancedSettings -> IO FModResult
 foreign import ccall "FMOD_System_GetAdvancedSettings"     fmod_SystemGetAdvancedSettings     :: Ptr FModSystem -> Ptr FModAdvancedSettings -> IO FModResult
 foreign import ccall "FMOD_System_SetSpeakerMode"          fmod_SystemSetSpeakerMode          :: Ptr FModSystem -> FModSpeakerMode -> IO FModResult
-foreign import ccall "FMOD_Syste_GetSpeakerMode"           fmod_SystemGetSpeakerMode          :: Ptr FModSystem -> Ptr FModSpeakerMode -> IO FModResult
+foreign import ccall "FMOD_System_GetSpeakerMode"           fmod_SystemGetSpeakerMode          :: Ptr FModSystem -> Ptr FModSpeakerMode -> IO FModResult
 foreign import ccall "FMOD_System_SetCallback"             fmod_SystemSetCallbcak             :: Ptr FModSystem -> FModSystemCallback -> IO FModResult
 
 -- Plugin support
@@ -88,7 +88,7 @@ foreign import ccall "FMOD_System_Set3DNumListeners"       fmod_SystemSet3DNumLi
 foreign import ccall "FMOD_System_Get3DNumListeners"       fmod_SystemGet3DNumListeners       :: Ptr FModSystem -> Ptr CInt -> IO FModResult
 foreign import ccall "FMOD_System_Set3DListenerAttributes" fmod_SystemSet3DListenerAttributes :: Ptr FModSystem -> CInt -> Ptr FModVector -> Ptr FModVector -> Ptr FModVector -> Ptr FModVector -> IO FModResult
 foreign import ccall "FMOD_System_Get3DListenerAttributes" fmod_SystemGet3DListenerAttributes :: Ptr FModSystem -> CInt -> Ptr FModVector -> Ptr FModVector -> Ptr FModVector -> Ptr FModVector -> IO FModResult
-foreign import ccall "FMOD_System_Set3DRolloffcallback"    fmod_SystemSet3DRolloffCallback    :: Ptr FModSystem -> FMod3DRollOffCallback -> IO FModResult
+foreign import ccall "FMOD_System_Set3DRolloffCallback"    fmod_SystemSet3DRolloffCallback    :: Ptr FModSystem -> FMod3DRollOffCallback -> IO FModResult
 foreign import ccall "FMOD_System_Set3DSpeakerPosition"    fmod_SystemSet3DSpeakerPosition    :: Ptr FModSystem -> FModSpeaker -> CFloat -> CFloat -> FModBool -> IO FModResult
 foreign import ccall "FMOD_System_Get3DSpeakerPosition"    fmod_SystemGet3DSpeakerPosition    :: Ptr FModSystem -> FModSpeaker -> Ptr CFloat -> Ptr CFloat -> Ptr FModBool -> IO FModResult
 foreign import ccall "FMOD_System_SetStreamBufferSize"     fmod_SystemSetStreamBufferSize     :: Ptr FModSystem -> CUInt -> FModTimeUnit -> IO FModResult
