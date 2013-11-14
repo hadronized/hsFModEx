@@ -21,7 +21,7 @@ import Foreign.Ptr
 import Sound.FModEx.Raw.Codec.Types
 import Sound.FModEx.Raw.Core.Types
 import Sound.FModEx.Raw.DSP.Types
-import Sound.FModEx.Raw.Memory.Types
+--import Sound.FModEx.Raw.Memory.Types
 
 -- macro, TODO
 -- // #define FMOD_64BIT_ADD(_hi1, _lo1, _hi2, _lo2) _hi1 += ((_hi2) + ((((_lo1) + (_lo2)) < (_lo1)) ? 1 : 0)); (_lo1) += (_lo2);

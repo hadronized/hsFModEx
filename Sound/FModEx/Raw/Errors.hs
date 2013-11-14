@@ -1,3 +1,5 @@
+{-# LANGUAGE CPP #-}
+
 {- |
 Module      :  Sound.FModEx.Raw.Errors
 Description :  Errors FModEx library Haskell raw binding
@@ -12,7 +14,12 @@ Errors FModEx raw Haskell API.
 -}
 
 module Sound.FModEx.Raw.Errors (
+#ifndef FMODEX_PLATFORM_LINUX
     module X
   ) where
 
 import Sound.FModEx.Raw.Errors.Functions as X
+
+#else
+  ) where
+#endif

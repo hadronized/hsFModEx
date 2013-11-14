@@ -1,3 +1,5 @@
+{-# LANGUAGE CPP #-}
+
 {- |
 Module      :  Sound.FModEx.Raw
 Description :  FModEx library Haskell raw binding
@@ -18,7 +20,9 @@ module Sound.FModEx.Raw (
 import Sound.FModEx.Raw.Codec as X
 import Sound.FModEx.Raw.Core as X
 import Sound.FModEx.Raw.DSP as X
+#ifndef FMODEX_PLATFORM_LINUX
 import Sound.FModEx.Raw.Errors as X
+#endif
 import Sound.FModEx.Raw.Linux as X
 import Sound.FModEx.Raw.Memory as X
 import Sound.FModEx.Raw.Output as X

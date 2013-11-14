@@ -15,8 +15,13 @@ FModEx API C errors functions raw Haskell binding.
 
 module Sound.FModEx.Raw.Errors.Functions where
 
+#ifndef FMODEX_PLATFORM_LINUX
+
 import Foreign.C.String
 import Foreign.C.Types
 import Sound.FModEx.Raw.Core.Types
+import System.Info (os)
 
 foreign import ccall "FMOD_ErrorString" fmod_ErrorString :: FModResult -> CString
+
+#endif
