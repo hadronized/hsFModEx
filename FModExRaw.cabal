@@ -74,7 +74,7 @@ library
   -- other-modules:       
   
   -- Other library packages from which modules are imported.
-  build-depends:       base ==4.6.*
+  build-depends:       base >= 3 && < 5
   
   -- Extra tools (e.g. alex, hsc2hs, ...) needed to build the source.
   build-tools:         hsc2hs
