@@ -10,7 +10,7 @@ name:                FModExRaw
 -- PVP summary:      +-+------- breaking API changes
 --                   | | +----- non-breaking API additions
 --                   | | | +--- code changes with no API change
-version:             0.1.0.2
+version:             0.2.0.0
 
 -- A short (one-line) description of the package.
 synopsis:            The Haskell FModEx raw API.
@@ -51,7 +51,10 @@ library
   if os(linux)
     cpp-options:       -DFMODEX_PLATFORM_LINUX
   -- Extra libraries
-  extra-libraries:   fmodex
+  if arch(x86_64)
+    extra-libraries:   fmodex64
+  else
+    extra-libraries:   fmodex
   -- Modules exported by the library.
   exposed-modules:     Sound.FModEx.Raw
                      , Sound.FModEx.Raw.Codec
